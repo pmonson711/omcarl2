@@ -1,0 +1,34 @@
+(lang dune 2.5)
+(using menhir 2.0)
+(name omcrl2)
+
+(generate_opam_files true)
+(version unreleased)
+
+(authors "Paul Monson")
+(maintainers "pmonson711@gmail.com")
+(license MIT)
+(source (uri "git+http://gitlab.com"))
+(homepage "http://gitlab.com")
+(bug_reports "http://gitlab.com")
+(documentation "http://gitlab.com")
+
+(package
+  (name omcrl2)
+  (synopsis "Parser generater for mCrl2")
+  (description "Parser generater for mCrl2")
+  (depends
+    (dune (>= 2.5))
+    (ocaml (>= 4.08))
+    
+    (menhir (>= 20200624))
+
+    (merlin :dev)
+    (ocamlformat :dev)
+    (ocp-indent :dev)
+    (ocp-index :dev)
+    (odig :dev)
+    (utop :dev)
+    (bisect_ppx :dev)
+  )
+ )
