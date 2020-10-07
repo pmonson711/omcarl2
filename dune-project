@@ -21,6 +21,8 @@
     (dune (>= 2.5))
     (ocaml (>= 4.08))
     
+    (cmdliner (>= 0.9))
+    (bos (>= 0.2))
     (menhir (>= 20200624))
 
     (merlin :dev)

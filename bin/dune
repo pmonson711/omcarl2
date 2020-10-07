@@ -1,0 +1,4 @@
+(executable
+ (public_name omcrl2)
+ (name main)
+ (libraries lib_json cmdliner))

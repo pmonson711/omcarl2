@@ -1,5 +1,5 @@
 (library
- (public_name omcrl2))
+ (name lib_json))
 
 (ocamllex
  (modules lexer))
