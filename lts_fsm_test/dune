@@ -1,0 +1,5 @@
+(test
+ (name lts_fsm_test)
+ (libraries alcotest lts_fsm)
+ (action
+  (run %{test} --show-errors)))

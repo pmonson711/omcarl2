@@ -7,17 +7,9 @@
 %token EOL
 %token EOF
 
-%{ open Grammer %}
-%start <Grammer.t option> prog
-%start <Grammer.parameter> parameter
-%start <Grammer.state> state
-%start <Grammer.transistion> transistion
+%{ open Grammar %}
+%start <Grammar.t> fsm
 %%
-
-
-prog:
-  | EOF { None }
-  | f = fsm { Some f }
 
 parameter:
   | parameter_name= STR
