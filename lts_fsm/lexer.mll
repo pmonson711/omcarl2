@@ -15,6 +15,7 @@ let next_line lexbuf =
 let alpha = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
 let str = (alpha|digit) (alpha|digit|'_')*
+let qstr = (alpha|digit) (alpha|digit|'_'|' ')*
 let whitespace = [' ' '\t']
 let newline = '\r' | '\n' | "\r\n"
 
@@ -28,5 +29,6 @@ rule read =
   | '"'         { D_QUOTE }
   | digit+      { POS (int_of_string (Lexing.lexeme lexbuf)) }
   | str         { STR (Lexing.lexeme lexbuf) }
+  | qstr        { Q_STR (Lexing.lexeme lexbuf) }
   | _           { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof         { EOF }

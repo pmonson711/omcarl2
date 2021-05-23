@@ -8,7 +8,7 @@ fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE R_PARAM
 ## POS POS D_QUOTE
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR D_QUOTE EOL STR
 ##
@@ -45,7 +45,7 @@ fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR STR
 ## POS POS D_QUOTE STR
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL POS POS STR
 ##
@@ -57,7 +57,7 @@ fsm: DIVIDER EOL DIVIDER EOL POS POS STR
 ## POS POS
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL POS STR
 ##
@@ -69,7 +69,7 @@ fsm: DIVIDER EOL DIVIDER EOL POS STR
 ## POS
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL STR
 ##
@@ -177,7 +177,7 @@ fsm: STR L_PARAM POS R_PARAM R_PARAM
 ## STR L_PARAM POS R_PARAM
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Parameter: <YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: STR L_PARAM POS R_PARAM STR D_QUOTE R_PARAM
 ##
@@ -240,7 +240,8 @@ fsm: STR L_PARAM POS R_PARAM STR STR
 ## STR L_PARAM POS R_PARAM STR
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Parameter: Did you forget to quote your first value? Found two domain names.
+for example `state(2) State "off"`
 
 fsm: STR L_PARAM POS STR
 ##
@@ -252,7 +253,8 @@ fsm: STR L_PARAM POS STR
 ## STR L_PARAM POS
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Parameter: You need to close your `(` with a `)` found a STR instead.
+for example `state(2)`
 
 fsm: STR L_PARAM STR
 ##
@@ -264,7 +266,8 @@ fsm: STR L_PARAM STR
 ## STR L_PARAM
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Parameter: you need a number after your `(`
+for example `state(2)`
 
 fsm: STR STR
 ##
@@ -276,5 +279,6 @@ fsm: STR STR
 ## STR
 ##
 
-<YOUR SYNTAX ERROR MESSAGE HERE>
+Parameter: you need to finish your parameter definition.
+for example `state(`
 

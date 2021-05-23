@@ -1,5 +1,6 @@
 %token DIVIDER "---"
 %token <string> STR
+%token <string> Q_STR
 %token <int> POS
 %token L_PARAM "("
 %token R_PARAM ")"
@@ -15,7 +16,7 @@ parameter:
   | parameter_name= STR
   ; domain_cardinality= delimited("(", POS, ")")
   ; domain_name= STR
-  ; values= delimited(D_QUOTE, STR, D_QUOTE)+
+  ; values= delimited(D_QUOTE, Q_STR, D_QUOTE)+
   ; EOL
       { { parameter_name
         ; domain_cardinality
@@ -29,7 +30,7 @@ state:
 transistion:
   | source_state= POS
   ; target_state= POS
-  ; label= delimited(D_QUOTE, STR, D_QUOTE)
+  ; label= delimited(D_QUOTE, Q_STR, D_QUOTE)
   ; EOL
       { { source_state
         ; target_state
