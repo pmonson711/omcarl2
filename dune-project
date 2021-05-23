@@ -24,6 +24,10 @@
     (cmdliner (>= 0.9))
     (bos (>= 0.2))
     (menhir (>= 20200624))
+    (ppx_deriving (>= 4.4))
+
+    ;; Testing
+    (alcotest (and :with-test (>= 1.1)))
 
     (merlin :dev)
     (ocamlformat :dev)

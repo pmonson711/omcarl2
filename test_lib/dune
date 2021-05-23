@@ -1,0 +1,5 @@
+(test
+ (name lib_test)
+ (libraries alcotest omcrl2)
+ (action
+  (run %{test} --show-errors)))

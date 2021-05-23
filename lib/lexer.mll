@@ -1,6 +1,6 @@
 {
 open Lexing
-open Parser
+open Tokens
   
 exception SyntaxError of string
 
@@ -23,8 +23,15 @@ rule read_tokens =
   parse
   | whitespace { read_tokens lexbuf }
   | newline    { next_line lexbuf; read_tokens lexbuf }
+
+  (* | "cons"     { CONS_SEC } *)
+  (* | "sort"     { SORT_SEC } *)
+  (* | "map"      { MAP_SEC } *)
+  (* | "var"      { VAR_SEC } *)
+  (* | "eqn"      { EQN_SEC } *)
+
+(* SORT *)
   | "struct"   { STRUCT }
-  (* SORT *)
   | "Bool"     { BOOL }
   | "Int"      { INT }
   | "Nat"      { NAT }
@@ -35,7 +42,15 @@ rule read_tokens =
   | "Bag"      { BAG }
   | "FSet"     { FSET }
   | "FBag"     { FBAG }
-  | id         { ID (Lexing.lexeme lexbuf) }
+
+(* DATA *)
+  | "true"     { TRUE }
+  | "false"    { FALSE }
+  | '['        { L_BRACE }
+  | ']'        { R_BRACE }
+  | '{'        { L_BRACK }
+  | '}'        { R_BRACK }
+
   | '('        { LPARAN }
   | ')'        { RPARAN }
   | "->"       { RARROW }
@@ -45,6 +60,11 @@ rule read_tokens =
   | '='        { EQUAL }
   | '|'        { BAR }
   | '?'        { QUESTION }
+  | '?'        { EXCLAIM }
   | ';'        { SEMI_COlON }
+
+  | id         { ID (Lexing.lexeme lexbuf) }
+  | int        { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
+
   | _          { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof        { EOF }

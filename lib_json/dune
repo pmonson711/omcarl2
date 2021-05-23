@@ -1,8 +1,0 @@
-(library
- (name lib_json))
-
-(ocamllex
- (modules lexer))
-
-(menhir
- (modules parser))
