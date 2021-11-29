@@ -1,4 +1,4 @@
-let test_name = "Cons parser"
+let test_name = "Cons_parser"
 
 let mcrl2 =
   let open Omcrl2 in

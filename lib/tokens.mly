@@ -1,5 +1,4 @@
 (* tokens only *)
-(* %token SORT_SEC *)
 %token BOOL
 %token INT
 %token NAT
@@ -14,8 +13,8 @@
 %token <string> ID
 %token <int> NUMBER
 
+(* %token SORT_SEC *)
 (* %token CONS_SEC *)
-
 (* %token MAP_SEC *)
 (* %token VAR_SEC *)
 (* %token EQN_SEC *)

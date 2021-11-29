@@ -59,6 +59,7 @@ and data_expr =
   | `Bag              of bag_enum_elt list
   | `SetComprehension of var_decl * data_expr
   | `SetUpdate        of data_expr * data_expr * data_expr
+  | `FunctionApply    of data_expr * data_expr list
   ]
 [@@deriving show, eq]
 

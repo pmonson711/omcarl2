@@ -1,4 +1,5 @@
 module Grammar = Grammar
+include Grammar.Fsm
 
 module ParserEngine = struct
   module Interpreter = Parser.MenhirInterpreter
@@ -18,13 +19,11 @@ module ParserEngine = struct
     match I.stack env with
     | (lazy Nil) -> (None, "Invalid syntax")
     | (lazy (Cons (I.Element (state, _, _, _), _))) -> (
-        try
-          ( Some (I.number state)
-          , Parser_messages.message (I.number state) )
+        try (Some (I.number state), Parser_messages.message (I.number state))
         with Not_found ->
           (None, "invalid syntax (no specific message for this error)") )
 
-  let rec parse lexbuf (checkpoint : Grammar.t Interpreter.checkpoint) =
+  let rec parse lexbuf (checkpoint : Grammar.Fsm.t Interpreter.checkpoint) =
     let module I = Interpreter in
     match checkpoint with
     | I.InputNeeded _env ->

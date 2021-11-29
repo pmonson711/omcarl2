@@ -1,18 +1,6 @@
-fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE R_PARAM
+fsm: DIVIDER EOL DIVIDER EOL POS POS Q_STR EOL STR
 ##
 ## Ends in an error in state: 30.
-##
-## transistion -> POS POS D_QUOTE . STR D_QUOTE EOL [ POS EOF ]
-##
-## The known suffix of the stack is as follows:
-## POS POS D_QUOTE
-##
-
-Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
-
-fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR D_QUOTE EOL STR
-##
-## Ends in an error in state: 34.
 ##
 ## nonempty_list(transistion) -> transistion . [ EOF ]
 ## nonempty_list(transistion) -> transistion . nonempty_list(transistion) [ EOF ]
@@ -23,57 +11,45 @@ fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR D_QUOTE EOL STR
 
 <YOUR SYNTAX ERROR MESSAGE HERE>
 
-fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR D_QUOTE STR
+fsm: DIVIDER EOL DIVIDER EOL POS POS Q_STR STR
 ##
-## Ends in an error in state: 32.
+## Ends in an error in state: 28.
 ##
-## transistion -> POS POS D_QUOTE STR D_QUOTE . EOL [ POS EOF ]
+## transistion -> POS POS Q_STR . EOL [ POS EOF ]
 ##
 ## The known suffix of the stack is as follows:
-## POS POS D_QUOTE STR D_QUOTE
+## POS POS Q_STR
 ##
 
 <YOUR SYNTAX ERROR MESSAGE HERE>
 
-fsm: DIVIDER EOL DIVIDER EOL POS POS D_QUOTE STR STR
-##
-## Ends in an error in state: 31.
-##
-## transistion -> POS POS D_QUOTE STR . D_QUOTE EOL [ POS EOF ]
-##
-## The known suffix of the stack is as follows:
-## POS POS D_QUOTE STR
-##
-
-Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
-
 fsm: DIVIDER EOL DIVIDER EOL POS POS STR
 ##
-## Ends in an error in state: 29.
+## Ends in an error in state: 27.
 ##
-## transistion -> POS POS . D_QUOTE STR D_QUOTE EOL [ POS EOF ]
+## transistion -> POS POS . Q_STR EOL [ POS EOF ]
 ##
 ## The known suffix of the stack is as follows:
 ## POS POS
 ##
 
-Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
+<YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL POS STR
 ##
-## Ends in an error in state: 28.
+## Ends in an error in state: 26.
 ##
-## transistion -> POS . POS D_QUOTE STR D_QUOTE EOL [ POS EOF ]
+## transistion -> POS . POS Q_STR EOL [ POS EOF ]
 ##
 ## The known suffix of the stack is as follows:
 ## POS
 ##
 
-Transistion: <YOUR SYNTAX ERROR MESSAGE HERE>
+<YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: DIVIDER EOL DIVIDER EOL STR
 ##
-## Ends in an error in state: 27.
+## Ends in an error in state: 25.
 ##
 ## fsm -> option(EOL) list(parameter) DIVIDER EOL list(state) DIVIDER EOL . nonempty_list(transistion) EOF [ # ]
 ##
@@ -85,7 +61,7 @@ fsm: DIVIDER EOL DIVIDER EOL STR
 
 fsm: DIVIDER EOL DIVIDER STR
 ##
-## Ends in an error in state: 26.
+## Ends in an error in state: 24.
 ##
 ## fsm -> option(EOL) list(parameter) DIVIDER EOL list(state) DIVIDER . EOL nonempty_list(transistion) EOF [ # ]
 ##
@@ -97,7 +73,7 @@ fsm: DIVIDER EOL DIVIDER STR
 
 fsm: DIVIDER EOL EOL STR
 ##
-## Ends in an error in state: 21.
+## Ends in an error in state: 19.
 ##
 ## list(state) -> state . list(state) [ DIVIDER ]
 ##
@@ -109,7 +85,7 @@ fsm: DIVIDER EOL EOL STR
 
 fsm: DIVIDER EOL POS STR
 ##
-## Ends in an error in state: 19.
+## Ends in an error in state: 17.
 ##
 ## list(POS) -> POS . list(POS) [ EOL ]
 ##
@@ -121,7 +97,7 @@ fsm: DIVIDER EOL POS STR
 
 fsm: DIVIDER EOL STR
 ##
-## Ends in an error in state: 18.
+## Ends in an error in state: 16.
 ##
 ## fsm -> option(EOL) list(parameter) DIVIDER EOL . list(state) DIVIDER EOL nonempty_list(transistion) EOF [ # ]
 ##
@@ -133,7 +109,7 @@ fsm: DIVIDER EOL STR
 
 fsm: DIVIDER STR
 ##
-## Ends in an error in state: 17.
+## Ends in an error in state: 15.
 ##
 ## fsm -> option(EOL) list(parameter) DIVIDER . EOL list(state) DIVIDER EOL nonempty_list(transistion) EOF [ # ]
 ##
@@ -171,30 +147,17 @@ fsm: STR L_PARAM POS R_PARAM R_PARAM
 ##
 ## Ends in an error in state: 6.
 ##
-## parameter -> STR L_PARAM POS R_PARAM . STR nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) EOL [ STR DIVIDER ]
+## parameter -> STR L_PARAM POS R_PARAM . STR nonempty_list(Q_STR) EOL [ STR DIVIDER ]
 ##
 ## The known suffix of the stack is as follows:
 ## STR L_PARAM POS R_PARAM
 ##
 
-Parameter: <YOUR SYNTAX ERROR MESSAGE HERE>
-
-fsm: STR L_PARAM POS R_PARAM STR D_QUOTE R_PARAM
-##
-## Ends in an error in state: 8.
-##
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE . STR D_QUOTE [ EOL ]
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE . STR D_QUOTE nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) [ EOL ]
-##
-## The known suffix of the stack is as follows:
-## D_QUOTE
-##
-
 <YOUR SYNTAX ERROR MESSAGE HERE>
 
-fsm: STR L_PARAM POS R_PARAM STR D_QUOTE STR D_QUOTE EOL R_PARAM
+fsm: STR L_PARAM POS R_PARAM STR Q_STR EOL R_PARAM
 ##
-## Ends in an error in state: 14.
+## Ends in an error in state: 12.
 ##
 ## list(parameter) -> parameter . list(parameter) [ DIVIDER ]
 ##
@@ -204,28 +167,15 @@ fsm: STR L_PARAM POS R_PARAM STR D_QUOTE STR D_QUOTE EOL R_PARAM
 
 <YOUR SYNTAX ERROR MESSAGE HERE>
 
-fsm: STR L_PARAM POS R_PARAM STR D_QUOTE STR D_QUOTE STR
+fsm: STR L_PARAM POS R_PARAM STR Q_STR STR
 ##
-## Ends in an error in state: 10.
+## Ends in an error in state: 8.
 ##
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE STR D_QUOTE . [ EOL ]
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE STR D_QUOTE . nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) [ EOL ]
-##
-## The known suffix of the stack is as follows:
-## D_QUOTE STR D_QUOTE
-##
-
-<YOUR SYNTAX ERROR MESSAGE HERE>
-
-fsm: STR L_PARAM POS R_PARAM STR D_QUOTE STR STR
-##
-## Ends in an error in state: 9.
-##
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE STR . D_QUOTE [ EOL ]
-## nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) -> D_QUOTE STR . D_QUOTE nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) [ EOL ]
+## nonempty_list(Q_STR) -> Q_STR . [ EOL ]
+## nonempty_list(Q_STR) -> Q_STR . nonempty_list(Q_STR) [ EOL ]
 ##
 ## The known suffix of the stack is as follows:
-## D_QUOTE STR
+## Q_STR
 ##
 
 <YOUR SYNTAX ERROR MESSAGE HERE>
@@ -234,51 +184,47 @@ fsm: STR L_PARAM POS R_PARAM STR STR
 ##
 ## Ends in an error in state: 7.
 ##
-## parameter -> STR L_PARAM POS R_PARAM STR . nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) EOL [ STR DIVIDER ]
+## parameter -> STR L_PARAM POS R_PARAM STR . nonempty_list(Q_STR) EOL [ STR DIVIDER ]
 ##
 ## The known suffix of the stack is as follows:
 ## STR L_PARAM POS R_PARAM STR
 ##
 
-Parameter: Did you forget to quote your first value? Found two domain names.
-for example `state(2) State "off"`
+<YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: STR L_PARAM POS STR
 ##
 ## Ends in an error in state: 5.
 ##
-## parameter -> STR L_PARAM POS . R_PARAM STR nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) EOL [ STR DIVIDER ]
+## parameter -> STR L_PARAM POS . R_PARAM STR nonempty_list(Q_STR) EOL [ STR DIVIDER ]
 ##
 ## The known suffix of the stack is as follows:
 ## STR L_PARAM POS
 ##
 
-Parameter: You need to close your `(` with a `)` found a STR instead.
-for example `state(2)`
+<YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: STR L_PARAM STR
 ##
 ## Ends in an error in state: 4.
 ##
-## parameter -> STR L_PARAM . POS R_PARAM STR nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) EOL [ STR DIVIDER ]
+## parameter -> STR L_PARAM . POS R_PARAM STR nonempty_list(Q_STR) EOL [ STR DIVIDER ]
 ##
 ## The known suffix of the stack is as follows:
 ## STR L_PARAM
 ##
 
-Parameter: you need a number after your `(`
-for example `state(2)`
+<YOUR SYNTAX ERROR MESSAGE HERE>
 
 fsm: STR STR
 ##
 ## Ends in an error in state: 3.
 ##
-## parameter -> STR . L_PARAM POS R_PARAM STR nonempty_list(delimited(D_QUOTE,STR,D_QUOTE)) EOL [ STR DIVIDER ]
+## parameter -> STR . L_PARAM POS R_PARAM STR nonempty_list(Q_STR) EOL [ STR DIVIDER ]
 ##
 ## The known suffix of the stack is as follows:
 ## STR
 ##
 
-Parameter: you need to finish your parameter definition.
-for example `state(`
+<YOUR SYNTAX ERROR MESSAGE HERE>
 

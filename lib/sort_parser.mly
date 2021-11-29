@@ -1,5 +1,5 @@
-%right RARROW
-%right HASH
+%right "->"
+%right "#"
 
 %%
 
@@ -21,7 +21,7 @@
 
 
 constr_decl:
-  (* | id= ID; proj= proj_decl                        { `TConstr (id, [proj], None) } *)
+  | id= ID; proj= proj_decl                        { `TConstr (id, [proj], None) }
   | id= ID; LPARAN; proj= proj_decl_list; RPARAN; 
             QUESTION; q= ID                        { `TConstr (id, proj, Some q) }
   | id= ID; LPARAN; proj= proj_decl_list; RPARAN;  { `TConstr (id, proj, None) }

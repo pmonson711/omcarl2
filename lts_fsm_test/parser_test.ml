@@ -1,9 +1,9 @@
 let test_name = "Parser"
 
 let fsm =
-  let open Lts_fsm in
+  let open Lts_fsm.Grammar in
   let open Alcotest in
-  Grammar.(testable pp equal)
+  Fsm.(testable pp equal)
 
 let parse str = str |> Lts_fsm.parse_from_string
 
@@ -28,19 +28,17 @@ let simple_switch () =
   let open Lts_fsm.Grammar in
   check (result fsm string) "expected sitch"
     (Ok
-       { parameters=
-           [ { parameter_name= "state"
-             ; domain_cardinality= 2
-             ; domain_name= "State"
-             ; values= [ "Off"; "On" ]
-             }
-           ]
-       ; states= [ [ 0 ]; [ 1 ] ]
-       ; transistions=
-           [ { source_state= 0; target_state= 1; label= "flick" }
-           ; { source_state= 1; target_state= 0; label= "flick" }
-           ]
-       })
+       (Fsm.make
+          ~parameters:
+            [ Parameter.make ~parameter_name:"state" ~domain_cardinality:2
+                ~domain_name:"State" ~values:[ "Off"; "On" ] ()
+            ]
+          ~states:[ State.make [ 0 ] (); State.make [ 1 ] () ]
+          ~transistions:
+            [ Transistion.make ~source_state:0 ~target_state:1 ~label:"flick"
+            ; Transistion.make ~source_state:1 ~target_state:0 ~label:"flick"
+            ]
+          ()))
     (parse text)
 
 let suite =

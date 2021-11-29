@@ -15,7 +15,7 @@ let next_line lexbuf =
 let alpha = ['a'-'z' 'A'-'Z']
 let digit = ['0'-'9']
 let str = (alpha|digit) (alpha|digit|'_')*
-let qstr = (alpha|digit) (alpha|digit|'_'|' ')*
+let qstr = [^ '"']+
 let whitespace = [' ' '\t']
 let newline = '\r' | '\n' | "\r\n"
 
@@ -26,9 +26,22 @@ rule read =
   | "---"       { DIVIDER }
   | '('         { L_PARAM }
   | ')'         { R_PARAM }
-  | '"'         { D_QUOTE }
+  | '"'         { read_string (Buffer.create 17) lexbuf }
   | digit+      { POS (int_of_string (Lexing.lexeme lexbuf)) }
   | str         { STR (Lexing.lexeme lexbuf) }
-  | qstr        { Q_STR (Lexing.lexeme lexbuf) }
   | _           { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof         { EOF }
+
+and read_string buf =
+  parse
+  | '"'        { Q_STR (Buffer.contents buf) }
+  | '\\' '"'   { Buffer.add_char buf '"'; read_string buf lexbuf }
+  | '\\' 'n'   { Buffer.add_char buf '\n'; read_string buf lexbuf }
+  | '\\' 'r'   { Buffer.add_char buf '\r'; read_string buf lexbuf }
+  | '\\' 't'   { Buffer.add_char buf '\t'; read_string buf lexbuf }
+  | [^ '"' '\\']+
+    { Buffer.add_string buf (Lexing.lexeme lexbuf);
+      read_string buf lexbuf }
+  | _          { raise (SyntaxError ("Illegal string character: " ^ Lexing.lexeme lexbuf)) }
+  | eof        { raise (SyntaxError ("String is not terminated")) }
+

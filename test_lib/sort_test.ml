@@ -1,4 +1,4 @@
-let test_name = "Sort parser"
+let test_name = "Sort_parser"
 
 let mcrl2 =
   let open Omcrl2 in

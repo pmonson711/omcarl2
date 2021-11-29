@@ -2,8 +2,8 @@
 %%
 
 prog:
-  | EOF       { None }
-  | v = value { Some v }
+  | EOF             { None }
+  | v = value; EOF? { Some v }
 
 value:
-  | exp= data_expr;                                { exp }
+  | exp= data_expr; { exp }

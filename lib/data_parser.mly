@@ -1,18 +1,32 @@
 %%
 
 %public data_expr:
+  | expr= static                                   { expr }
+  | expr= sets                                     { expr }
+  | expr= lists                                    { expr }
+  | expr= bags                                     { expr }
+  | "("; expr= data_expr; ")"                      { expr }
+  | expr= set_update                               { expr }
+  | expr= func_apply                               { expr }
+
+sets:
+  | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
+  | "{"; lst= data_expr_list; "}"                  { `Set lst }
+  | L_BRACK; R_BRACK                               { `Set [] }
+
+bags: 
+  | L_BRACK; COLON; R_BRACK                        { `Bag [] }
+  | L_BRACK; exprs= bag_enum_elt_list; R_BRACK     { `Bag exprs }
+
+lists:
+  | L_BRACE; exprs= data_expr_list; R_BRACE        { `List exprs }
+  | L_BRACE; R_BRACE                               { `List [] }
+
+static:
   | id= ID                                         { `Id id }
   | num= NUMBER                                    { `Number num }
   | TRUE                                           { `True }
   | FALSE                                          { `False }
-  | L_BRACE; R_BRACE                               { `List [] }
-  | L_BRACK; R_BRACK                               { `Set [] }
-  | L_BRACK; COLON; R_BRACK                        { `Bag [] }
-  | L_BRACE; exprs= data_expr_list; R_BRACE        { `List exprs }
-  | L_BRACK; exprs= bag_enum_elt_list; R_BRACK     { `Bag exprs }
-  | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
-  | "{"; lst= data_expr_list; "}"                  { `Set lst }
-  | "("; exp= data_expr; ")"                       { exp }
 
 data_expr_list:
   | lst= separated_nonempty_list(COMMA, data_expr) { lst }
@@ -23,7 +37,6 @@ bag_enum_elt:
 bag_enum_elt_list:
   | lst= separated_nonempty_list(COMMA, bag_enum_elt)
                                                    { lst }
-
 (* data_id_list: *)
 (*   | lst= separated_nonempty_list(COMMA, ID)        { lst } *)
 
@@ -41,4 +54,11 @@ var_decl:
 
 (* assignment_list: *)
 (*   | lst= separated_nonempty_list(COMMA, assignment) { lst } *)
+
+set_update:
+  | exp1= ID; "["; exp2= data_expr; "->"; exp3= data_expr "]"
+                                                   { `SetUpdate (`Id exp1, exp2, exp3) }
+
+func_apply:
+  | expr1= ID; "("; lst= data_expr_list; ")"       { `FunctionApply (`Id expr1, lst) }
 

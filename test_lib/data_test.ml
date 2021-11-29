@@ -1,4 +1,4 @@
-let test_name = "Data parser"
+let test_name = "Data_parser"
 
 let data_expr =
   let open Omcrl2 in
@@ -13,10 +13,10 @@ let parse str =
 let empty () =
   Alcotest.(check (option data_expr)) "empty is none" None (parse "")
 
+let data_check msg to_parse t =
+  Alcotest.(check (option data_expr)) msg t (parse to_parse)
+
 let basics () =
-  let data_check msg to_parse t =
-    Alcotest.(check (option data_expr)) msg t (parse to_parse)
-  in
   data_check "Empty set" "{}" (Some (`Set [])) ;
   data_check "Empty set" "[]" (Some (`List [])) ;
   data_check "Empty bag" "{:}" (Some (`Bag [])) ;
@@ -41,7 +41,19 @@ let basics () =
     (fun id -> data_check ("id " ^ id) id (Some (`Id id)))
     [ "a"; "b"; "abc" ]
 
+let set_update () =
+  data_check "Some set update" "a[b -> c]"
+    (Some (`SetUpdate (`Id "a", `Id "b", `Id "c")))
+
+let function_apply () =
+  data_check "Some function apply" "a(b, c)"
+    (Some (`FunctionApply (`Id "a", [ `Id "b"; `Id "c" ])))
+
 let case =
   let open Alcotest in
   ( test_name
-  , [ test_case "empty" `Quick empty; test_case "basics" `Quick basics ] )
+  , [ test_case "empty" `Quick empty
+    ; test_case "basics" `Quick basics
+    ; test_case "set update" `Quick set_update
+    ; test_case "function apply" `Quick function_apply
+    ] )
