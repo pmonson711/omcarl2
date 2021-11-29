@@ -65,6 +65,7 @@ rule read_tokens =
   | '-'        { NEGATION }
   | "forall"   { FORALL }
   | "exists"   { EXISTS }
+  | "lambda"   { LAMBDA }
   | '.'        { DOT }
 
   | id         { ID (Lexing.lexeme lexbuf) }

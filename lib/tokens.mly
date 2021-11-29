@@ -38,6 +38,7 @@
 %token NEGATION "-"
 %token FORALL "forall"
 %token EXISTS "exists"
+%token LAMBDA "lambda"
 %token DOT "."
 %token EOF
 

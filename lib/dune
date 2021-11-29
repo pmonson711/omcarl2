@@ -27,6 +27,7 @@
   (--unused-token DOT)
   (--unused-token NEGATION)
   (--unused-token EXISTS)
+  (--unused-token LAMBDA)
   (--unused-token TRUE)))
 
 (menhir
@@ -47,6 +48,7 @@
   (--unused-token DOT)
   (--unused-token NEGATION)
   (--unused-token EXISTS)
+  (--unused-token LAMBDA)
   (--unused-token TRUE)))
 
 (menhir
