@@ -64,6 +64,7 @@ rule read_tokens =
   | ';'        { SEMI_COlON }
   | '-'        { NEGATION }
   | "forall"   { FORALL }
+  | "exists"   { EXISTS }
   | '.'        { DOT }
 
   | id         { ID (Lexing.lexeme lexbuf) }

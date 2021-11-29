@@ -37,6 +37,7 @@
 %token SEMI_COlON ";"
 %token NEGATION "-"
 %token FORALL "forall"
+%token EXISTS "exists"
 %token DOT "."
 %token EOF
 

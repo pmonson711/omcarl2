@@ -26,6 +26,7 @@
   (--unused-token FORALL)
   (--unused-token DOT)
   (--unused-token NEGATION)
+  (--unused-token EXISTS)
   (--unused-token TRUE)))
 
 (menhir
@@ -45,6 +46,7 @@
   (--unused-token FORALL)
   (--unused-token DOT)
   (--unused-token NEGATION)
+  (--unused-token EXISTS)
   (--unused-token TRUE)))
 
 (menhir
@@ -54,4 +56,5 @@
   --explain
   (--external-tokens Tokens)
   (--unused-token SEMI_COlON)
+  (--unused-token EXISTS)
   (--unused-token EQUAL)))

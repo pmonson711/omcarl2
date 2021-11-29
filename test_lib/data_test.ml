@@ -60,6 +60,10 @@ let forall () =
   data_check "Some forall" "forall b: Bool . (b)"
     (Some (`ForAll ([ `VarsDecl ([ "b" ], `Boolean) ], `Id "b")))
 
+let exists () =
+  data_check "Some exists" "exists b: Bool . (b)"
+    (Some (`Exists ([ `VarsDecl ([ "b" ], `Boolean) ], `Id "b")))
+
 let case =
   let open Alcotest in
   ( test_name
@@ -71,4 +75,5 @@ let case =
     ; test_case "negation" `Quick negation
     ; test_case "length" `Quick length
     ; test_case "forall" `Quick forall
+    ; test_case "exists" `Quick exists
     ] )

@@ -64,6 +64,7 @@ and data_expr =
   | `Negation         of data_expr
   | `Length           of data_expr
   | `ForAll           of var_decl list * data_expr
+  | `Exists           of var_decl list * data_expr
   ]
 [@@deriving show, eq]
 

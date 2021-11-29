@@ -13,6 +13,8 @@
   | "#"; expr= data_expr                           { `Length expr }
   | "forall"; vars= vars_decl_list; "."; expr= data_expr
                                                    { `ForAll (vars, expr) }
+  | "exists"; vars= vars_decl_list; "."; expr= data_expr
+                                                   { `Exists (vars, expr) }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
