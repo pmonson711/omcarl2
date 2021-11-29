@@ -8,6 +8,11 @@
   | "("; expr= data_expr; ")"                      { expr }
   | expr= set_update                               { expr }
   | expr= func_apply                               { expr }
+  | "!"; expr= data_expr                           { `SetCompliment expr }
+  | "-"; expr= data_expr                           { `Negation expr }
+  | "#"; expr= data_expr                           { `Length expr }
+  | "forall"; vars= vars_decl_list; "."; expr= data_expr
+                                                   { `ForAll (vars, expr) }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
@@ -23,7 +28,7 @@ lists:
   | L_BRACE; R_BRACE                               { `List [] }
 
 static:
-  | id= ID                                         { `Id id }
+  | id= ID; EOF?                                   { `Id id }
   | num= NUMBER                                    { `Number num }
   | TRUE                                           { `True }
   | FALSE                                          { `False }
@@ -37,17 +42,17 @@ bag_enum_elt:
 bag_enum_elt_list:
   | lst= separated_nonempty_list(COMMA, bag_enum_elt)
                                                    { lst }
-(* data_id_list: *)
-(*   | lst= separated_nonempty_list(COMMA, ID)        { lst } *)
+data_id_list:
+  | lst= separated_nonempty_list(COMMA, ID)        { lst }
 
 var_decl:
   | id= ID; COLON; expr= sort_exp;                 { `VarDecl (id, expr) }
 
-(* vars_decl: *)
-(*   | lst=  data_id_list; COLON; expr= sort_exp;     { `VarDecl (id, expr) } *)
+vars_decl:
+  | lst=  data_id_list; COLON; expr= sort_exp;     { `VarsDecl (lst, expr) }
 
-(* vars_decl_list: *)
-(*   | lst= separated_nonempty_list(COMMA, vars_decl) { lst } *)
+vars_decl_list:
+  | lst= separated_nonempty_list(COMMA, vars_decl) { lst }
 
 (* assignment: *)
 (*   | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) } *)
@@ -61,4 +66,3 @@ set_update:
 
 func_apply:
   | expr1= ID; "("; lst= data_expr_list; ")"       { `FunctionApply (`Id expr1, lst) }
-

@@ -60,6 +60,10 @@ and data_expr =
   | `SetComprehension of var_decl * data_expr
   | `SetUpdate        of data_expr * data_expr * data_expr
   | `FunctionApply    of data_expr * data_expr list
+  | `SetCompliment    of data_expr
+  | `Negation         of data_expr
+  | `Length           of data_expr
+  | `ForAll           of var_decl list * data_expr
   ]
 [@@deriving show, eq]
 

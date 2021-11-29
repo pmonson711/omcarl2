@@ -60,11 +60,14 @@ rule read_tokens =
   | '='        { EQUAL }
   | '|'        { BAR }
   | '?'        { QUESTION }
-  | '?'        { EXCLAIM }
+  | '!'        { EXCLAIM }
   | ';'        { SEMI_COlON }
+  | '-'        { NEGATION }
+  | "forall"   { FORALL }
+  | '.'        { DOT }
 
   | id         { ID (Lexing.lexeme lexbuf) }
-  | int        { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
+  | digit      { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
 
   | _          { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof        { EOF }

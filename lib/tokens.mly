@@ -35,6 +35,9 @@
 %token EXCLAIM "!"
 %token COLON ":"
 %token SEMI_COlON ";"
+%token NEGATION "-"
+%token FORALL "forall"
+%token DOT "."
 %token EOF
 
 %%

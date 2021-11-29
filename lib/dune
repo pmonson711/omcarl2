@@ -23,6 +23,9 @@
   (--unused-token NUMBER)
   (--unused-token R_BRACE)
   (--unused-token R_BRACK)
+  (--unused-token FORALL)
+  (--unused-token DOT)
+  (--unused-token NEGATION)
   (--unused-token TRUE)))
 
 (menhir
@@ -39,6 +42,9 @@
   (--unused-token NUMBER)
   (--unused-token R_BRACE)
   (--unused-token R_BRACK)
+  (--unused-token FORALL)
+  (--unused-token DOT)
+  (--unused-token NEGATION)
   (--unused-token TRUE)))
 
 (menhir
@@ -47,6 +53,5 @@
  (flags
   --explain
   (--external-tokens Tokens)
-  (--unused-token EXCLAIM)
   (--unused-token SEMI_COlON)
   (--unused-token EQUAL)))

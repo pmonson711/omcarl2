@@ -3,7 +3,7 @@
 
 prog:
   | EOF             { None }
-  | v = value; EOF? { Some v }
+  | v = value;      { Some v }
 
 value:
   | exp= data_expr; { exp }

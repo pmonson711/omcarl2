@@ -49,6 +49,17 @@ let function_apply () =
   data_check "Some function apply" "a(b, c)"
     (Some (`FunctionApply (`Id "a", [ `Id "b"; `Id "c" ])))
 
+let set_complment () =
+  data_check "Some set compliment" "!a" (Some (`SetCompliment (`Id "a")))
+
+let negation () = data_check "Some negation" "-a" (Some (`Negation (`Id "a")))
+
+let length () = data_check "Some length" "#a" (Some (`Length (`Id "a")))
+
+let forall () =
+  data_check "Some forall" "forall b: Bool . (b)"
+    (Some (`ForAll ([ `VarsDecl ([ "b" ], `Boolean) ], `Id "b")))
+
 let case =
   let open Alcotest in
   ( test_name
@@ -56,4 +67,8 @@ let case =
     ; test_case "basics" `Quick basics
     ; test_case "set update" `Quick set_update
     ; test_case "function apply" `Quick function_apply
+    ; test_case "set compliment" `Quick set_complment
+    ; test_case "negation" `Quick negation
+    ; test_case "length" `Quick length
+    ; test_case "forall" `Quick forall
     ] )
