@@ -1,16 +1,184 @@
-fsm: EOL STR
+fsm: DES L_PARAM POS COMMA POS COMMA POS Q_STR
 ##
-## Ends in an error in state: 2.
+## Ends in an error in state: 7.
 ##
-## fsm -> option(EOL) . EOF [ # ]
+## header -> DES L_PARAM POS COMMA POS COMMA POS . R_PARAM [ L_PARAM EOF ]
 ##
 ## The known suffix of the stack is as follows:
-## option(EOL)
+## DES L_PARAM POS COMMA POS COMMA POS
 ##
 
 <YOUR SYNTAX ERROR MESSAGE HERE>
 
-fsm: STR
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS COMMA Q_STR COMMA POS Q_STR
+##
+## Ends in an error in state: 15.
+##
+## edge -> L_PARAM POS COMMA Q_STR COMMA POS . R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM POS COMMA Q_STR COMMA POS
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS COMMA Q_STR COMMA POS R_PARAM R_PARAM
+##
+## Ends in an error in state: 19.
+##
+## list(edge) -> edge . list(edge) [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## edge
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS COMMA Q_STR COMMA R_PARAM
+##
+## Ends in an error in state: 14.
+##
+## edge -> L_PARAM POS COMMA Q_STR COMMA . POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM POS COMMA Q_STR COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS COMMA Q_STR R_PARAM
+##
+## Ends in an error in state: 13.
+##
+## edge -> L_PARAM POS COMMA Q_STR . COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM POS COMMA Q_STR
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS COMMA R_PARAM
+##
+## Ends in an error in state: 12.
+##
+## edge -> L_PARAM POS COMMA . Q_STR COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM POS COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM POS R_PARAM
+##
+## Ends in an error in state: 11.
+##
+## edge -> L_PARAM POS . COMMA Q_STR COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM POS
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM L_PARAM R_PARAM
+##
+## Ends in an error in state: 10.
+##
+## edge -> L_PARAM . POS COMMA Q_STR COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAM
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA POS R_PARAM R_PARAM
+##
+## Ends in an error in state: 9.
+##
+## fsm -> header . list(edge) EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## header
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS COMMA R_PARAM
+##
+## Ends in an error in state: 6.
+##
+## header -> DES L_PARAM POS COMMA POS COMMA . POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES L_PARAM POS COMMA POS COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA POS R_PARAM
+##
+## Ends in an error in state: 5.
+##
+## header -> DES L_PARAM POS COMMA POS . COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES L_PARAM POS COMMA POS
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS COMMA R_PARAM
+##
+## Ends in an error in state: 4.
+##
+## header -> DES L_PARAM POS COMMA . POS COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES L_PARAM POS COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM POS R_PARAM
+##
+## Ends in an error in state: 3.
+##
+## header -> DES L_PARAM POS . COMMA POS COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES L_PARAM POS
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES L_PARAM R_PARAM
+##
+## Ends in an error in state: 2.
+##
+## header -> DES L_PARAM . POS COMMA POS COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES L_PARAM
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: DES R_PARAM
+##
+## Ends in an error in state: 1.
+##
+## header -> DES . L_PARAM POS COMMA POS COMMA POS R_PARAM [ L_PARAM EOF ]
+##
+## The known suffix of the stack is as follows:
+## DES
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: R_PARAM
 ##
 ## Ends in an error in state: 0.
 ##

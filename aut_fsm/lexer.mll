@@ -23,12 +23,13 @@ let newline = '\r' | '\n' | "\r\n"
 rule read =
   parse
   | whitespace { read lexbuf }
-  | newline+   { read_line lexbuf; EOL }
+  | newline    { read lexbuf }
   | "des"      { DES }
   | '('        { L_PARAM }
   | ')'        { R_PARAM }
+  | ','        { COMMA }
+  | digit+     { POS (int_of_string (Lexing.lexeme lexbuf)) }
   | '"'        { read_string (Buffer.create 17) lexbuf }
-  | str        { STR (Lexing.lexeme lexbuf) }
   | _          { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof        { EOF }
 

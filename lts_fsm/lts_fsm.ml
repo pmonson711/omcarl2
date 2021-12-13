@@ -21,7 +21,7 @@ module ParserEngine = struct
     | (lazy (Cons (I.Element (state, _, _, _), _))) -> (
         try (Some (I.number state), Parser_messages.message (I.number state))
         with Not_found ->
-          (None, "invalid syntax (no specific message for this error)") )
+          (None, "invalid syntax (no specific message for this error)"))
 
   let rec parse lexbuf (checkpoint : Grammar.Fsm.t Interpreter.checkpoint) =
     let module I = Interpreter in
@@ -59,7 +59,7 @@ module ParserEngine = struct
                  (Option.value state ~default:(-1))
                  line pos err)
         | None                    -> Error
-                                       (Printf.sprintf "Syntax error: %s" err) )
+                                       (Printf.sprintf "Syntax error: %s" err))
     | Grammar_error msg       -> Error (Printf.sprintf "Grammar error: %s" msg)
 end
 
