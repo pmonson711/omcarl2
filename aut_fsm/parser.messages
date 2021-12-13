@@ -1,0 +1,24 @@
+fsm: EOL STR
+##
+## Ends in an error in state: 2.
+##
+## fsm -> option(EOL) . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## option(EOL)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+fsm: STR
+##
+## Ends in an error in state: 0.
+##
+## fsm' -> . fsm [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
