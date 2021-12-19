@@ -23,8 +23,13 @@ bin:
   | left= data_expr; op= bin_op; right= data_expr  { `BinOp (left, op, right) }
 
 bin_op:
-  | DRARROW                                        { `LogicalImplication }
-  | DBAR                                           { `LogicalOr }
+  | "=>"                                           { `LogicalImplication }
+  | "||"                                           { `LogicalOr }
+  | "&&"                                           { `LogicalAnd }
+  | "=="                                           { `Equality }
+  | "!="                                           { `Equality }
+  | "<"                                            { `LessThan }
+  | ">"                                            { `GreaterThan }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }

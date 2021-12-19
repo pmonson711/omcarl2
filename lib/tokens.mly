@@ -42,6 +42,11 @@
 %token LAMBDA "lambda"
 %token DOT "."
 %token DBAR "||"
+%token DAMP "&&"
+%token EQUALITY "=="
+%token INEQUALITY "!="
+%token LESSTHAN "<"
+%token GREATERTHAN ">"
 %token EOF
 
 %%

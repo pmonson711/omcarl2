@@ -73,6 +73,11 @@ and data_expr =
 and data_bin_op =
   [ `LogicalImplication
   | `LogicalOr
+  | `LogicalAnd
+  | `Equality
+  | `Inequality
+  | `LessThan
+  | `GreaterThan
   ]
 [@@deriving show, eq]
 

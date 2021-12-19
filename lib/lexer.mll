@@ -65,6 +65,10 @@ rule read_tokens =
   | ';'        { SEMI_COlON }
   | '-'        { NEGATION }
   | "||"       { DBAR }
+  | "=="       { EQUALITY }
+  | "!="       { INEQUALITY }
+  | '<'        { LESSTHAN }
+  | '>'        { GREATERTHAN }
   | "forall"   { FORALL }
   | "exists"   { EXISTS }
   | "lambda"   { LAMBDA }
