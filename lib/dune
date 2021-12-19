@@ -1,14 +1,15 @@
 (library
  (public_name omcrl2)
  (preprocess
-  (pps ppx_deriving.show ppx_deriving.eq)))
+  (pps ppx_deriving.show ppx_deriving.eq))
+ (libraries menhirLib))
 
 (ocamllex
  (modules lexer))
 
 (menhir
  (modules tokens)
- (flags --unused-tokens --only-tokens))
+ (flags --unused-tokens --only-tokens --table))
 
 (menhir
  (modules tokens sort_parser sort_parser_value)
@@ -28,6 +29,8 @@
   (--unused-token NEGATION)
   (--unused-token EXISTS)
   (--unused-token LAMBDA)
+  (--unused-token DBAR)
+  (--unused-token DRARROW)
   (--unused-token TRUE)))
 
 (menhir
@@ -49,6 +52,8 @@
   (--unused-token NEGATION)
   (--unused-token EXISTS)
   (--unused-token LAMBDA)
+  (--unused-token DBAR)
+  (--unused-token DRARROW)
   (--unused-token TRUE)))
 
 (menhir
@@ -57,6 +62,5 @@
  (flags
   --explain
   (--external-tokens Tokens)
-  (--unused-token SEMI_COlON)
   (--unused-token EXISTS)
   (--unused-token EQUAL)))

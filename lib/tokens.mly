@@ -30,6 +30,7 @@
 %token BAR "|"
 %token LPARAN "(" RPARAN ")"
 %token RARROW "->"
+%token DRARROW "=>"
 %token HASH "#"
 %token COMMA ","
 %token EXCLAIM "!"
@@ -40,6 +41,7 @@
 %token EXISTS "exists"
 %token LAMBDA "lambda"
 %token DOT "."
+%token DBAR "||"
 %token EOF
 
 %%

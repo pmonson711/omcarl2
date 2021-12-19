@@ -17,7 +17,7 @@ install:
 
 .PHONY: test
 test:
-	dune runtest
+	dune runtest --force
 
 .PHONY: watch_test
 watch_test:
@@ -27,7 +27,7 @@ watch_test:
 coverage:
 	dune runtest --instrument-with bisect_ppx --force
 	bisect-ppx-report summary --per-file
-	bisect-ppx-report html 
+	bisect-ppx-report html
 
 .PHONY: format
 format:

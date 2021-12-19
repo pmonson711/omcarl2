@@ -66,6 +66,13 @@ and data_expr =
   | `ForAll           of var_decl list * data_expr
   | `Exists           of var_decl list * data_expr
   | `Lambda           of var_decl list * data_expr
+  | `BinOp            of data_expr * data_bin_op * data_expr
+  ]
+[@@deriving show, eq]
+
+and data_bin_op =
+  [ `LogicalImplication
+  | `LogicalOr
   ]
 [@@deriving show, eq]
 

@@ -17,13 +17,21 @@
                                                    { `Exists (vars, expr) }
   | "lambda"; vars= vars_decl_list; "."; expr= data_expr
                                                    { `Lambda (vars, expr) }
+  | expr= bin                                      { expr }
+
+bin:
+  | left= data_expr; op= bin_op; right= data_expr  { `BinOp (left, op, right) }
+
+bin_op:
+  | DRARROW                                        { `LogicalImplication }
+  | DBAR                                           { `LogicalOr }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
   | "{"; lst= data_expr_list; "}"                  { `Set lst }
   | L_BRACK; R_BRACK                               { `Set [] }
 
-bags: 
+bags:
   | L_BRACK; COLON; R_BRACK                        { `Bag [] }
   | L_BRACK; exprs= bag_enum_elt_list; R_BRACK     { `Bag exprs }
 
