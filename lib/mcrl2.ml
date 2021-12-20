@@ -108,10 +108,17 @@ and bag_enum_elt = [ `BagEnumElt of data_expr * data_expr ]
 
 and map_decl = [ `IdsDecl of string list * sort_exp ] [@@deriving show, eq]
 
+and eqn_decl =
+  [ `Var of string list * sort_exp
+  | `Eqn of data_expr option * data_expr * data_expr
+  ]
+[@@deriving show, eq]
+
 type t =
   [ `Section  of section
   | `SortDecl of sort_decl
   | `ConsDecl of cons_decl
   | `MapDecl  of map_decl
+  | `EqnDecl  of eqn_decl
   ]
 [@@deriving show, eq]

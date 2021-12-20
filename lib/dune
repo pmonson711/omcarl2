@@ -16,87 +16,40 @@
  (merge_into sort_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token CONS)
-  (--unused-token DAMP)
-  (--unused-token DBAR)
-  (--unused-token DIV)
-  (--unused-token DOT)
-  (--unused-token DRARROW)
-  (--unused-token END)
-  (--unused-token EQUALITY)
-  (--unused-token EXCLAIM)
-  (--unused-token EXISTS)
-  (--unused-token FALSE)
-  (--unused-token FORALL)
-  (--unused-token F_SLASH)
-  (--unused-token GREATERTHAN)
-  (--unused-token GREATERTHANEQUAL)
-  (--unused-token IN)
-  (--unused-token INEQUALITY)
-  (--unused-token LAMBDA)
-  (--unused-token LESSTHAN)
-  (--unused-token LESSTHANEQUAL)
-  (--unused-token LISTCONCAT)
-  (--unused-token L_BRACE)
-  (--unused-token L_BRACK)
-  (--unused-token MOD)
-  (--unused-token NEGATION)
-  (--unused-token NUMBER)
-  (--unused-token PRODUCT)
-  (--unused-token R_BRACE)
-  (--unused-token R_BRACK)
-  (--unused-token SNOC)
-  (--unused-token SUM)
-  (--unused-token TRUE)
-  (--unused-token WHERE)))
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
 
 (menhir
  (modules tokens sort_parser cons_parser cons_parser_value)
  (merge_into cons_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token CONS)
-  (--unused-token DAMP)
-  (--unused-token DBAR)
-  (--unused-token DIV)
-  (--unused-token DOT)
-  (--unused-token DRARROW)
-  (--unused-token END)
-  (--unused-token EQUAL)
-  (--unused-token EQUALITY)
-  (--unused-token EXCLAIM)
-  (--unused-token EXISTS)
-  (--unused-token FALSE)
-  (--unused-token FORALL)
-  (--unused-token F_SLASH)
-  (--unused-token GREATERTHAN)
-  (--unused-token GREATERTHANEQUAL)
-  (--unused-token IN)
-  (--unused-token INEQUALITY)
-  (--unused-token LAMBDA)
-  (--unused-token LESSTHAN)
-  (--unused-token LESSTHANEQUAL)
-  (--unused-token LISTCONCAT)
-  (--unused-token L_BRACE)
-  (--unused-token L_BRACK)
-  (--unused-token MOD)
-  (--unused-token NEGATION)
-  (--unused-token NUMBER)
-  (--unused-token PRODUCT)
-  (--unused-token R_BRACE)
-  (--unused-token R_BRACK)
-  (--unused-token SNOC)
-  (--unused-token SUM)
-  (--unused-token TRUE)
-  (--unused-token WHERE)))
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
 
 (menhir
  (modules tokens sort_parser data_parser data_parser_value)
  (merge_into data_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token EXISTS)
-  (--unused-token EQUAL)))
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser map_parser map_parser_value)
+ (merge_into map_parser)
+ (flags
+  --explain
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser data_parser eqn_parser eqn_parser_value)
+ (merge_into eqn_parser)
+ (flags
+  --explain
+  --table
+  (--external-tokens Tokens)))
