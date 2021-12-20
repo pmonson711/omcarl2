@@ -67,21 +67,35 @@ and data_expr =
   | `Exists           of var_decl list * data_expr
   | `Lambda           of var_decl list * data_expr
   | `BinOp            of data_expr * data_bin_op * data_expr
+  | `WhereOp          of data_expr * assignment list
   ]
 [@@deriving show, eq]
 
 and data_bin_op =
-  [ `LogicalImplication
-  | `LogicalOr
-  | `LogicalAnd
+  [ `Cons
   | `Equality
+  | `GreaterThan
+  | `GreaterThanEqual
+  | `In
   | `Inequality
   | `LessThan
   | `LessThanEqual
-  | `GreaterThan
-  | `GreaterThanEqual
+  | `LogicalAnd
+  | `LogicalImplication
+  | `LogicalOr
+  | `Snoc
+  | `ListConcat
+  | `Sum
+  | `Difference
+  | `Product
+  | `Quotient
+  | `IntegerDivision
+  | `Remainder
+  | `AtPosition
   ]
 [@@deriving show, eq]
+
+and assignment = [ `Assignment of string * data_expr ] [@@deriving show, eq]
 
 and var_decl =
   [ `VarDecl  of string * sort_exp

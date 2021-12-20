@@ -71,6 +71,16 @@ rule read_tokens =
   | "<="       { LESSTHANEQUAL }
   | '>'        { GREATERTHAN }
   | ">="       { GREATERTHANEQUAL }
+  | "in"       { IN }
+  | "<|"       { SNOC }
+  | "|>"       { CONS }
+  | "++"       { LISTCONCAT }
+  | '+'        { SUM }
+  | '*'        { PRODUCT }
+  | "div"      { DIV }
+  | "mod"      { MOD }
+  | "whr"      { WHERE }
+  | "end"      { END }
   | "forall"   { FORALL }
   | "exists"   { EXISTS }
   | "lambda"   { LAMBDA }

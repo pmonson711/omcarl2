@@ -21,6 +21,8 @@
 
 bin:
   | left= data_expr; op= bin_op; right= data_expr  { `BinOp (left, op, right) }
+  | expr= data_expr; WHERE; lst= assignment_list; END
+                                                   { `WhereOp (expr, lst) }
 
 bin_op:
   | "=>"                                           { `LogicalImplication }
@@ -32,6 +34,17 @@ bin_op:
   | "<="                                           { `LessThanEqual }
   | ">"                                            { `GreaterThan }
   | ">="                                           { `GreaterThanEqual }
+  | "|>"                                           { `Cons }
+  | "<|"                                           { `Snoc }
+  | "in"                                           { `In }
+  | "++"                                           { `ListConcat }
+  | "+"                                            { `Sum }
+  | "-"                                            { `Difference }
+  | "*"                                            { `Product }
+  | "/"                                            { `Quotient }
+  | "div"                                          { `IntegerDivision }
+  | "mod"                                          { `Remainder }
+  | "."                                            { `AtPosition }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
@@ -73,11 +86,11 @@ vars_decl:
 vars_decl_list:
   | lst= separated_nonempty_list(COMMA, vars_decl) { lst }
 
-(* assignment: *)
-(*   | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) } *)
+assignment:
+  | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) }
 
-(* assignment_list: *)
-(*   | lst= separated_nonempty_list(COMMA, assignment) { lst } *)
+assignment_list:
+  | lst= separated_nonempty_list(COMMA, assignment) { lst }
 
 set_update:
   | exp1= ID; "["; exp2= data_expr; "->"; exp3= data_expr "]"

@@ -28,6 +28,7 @@
 %token BAR "|"
 %token COLON ":"
 %token COMMA ","
+%token CONS "|>"
 %token DAMP "&&"
 %token DBAR "||"
 %token DOT "."
@@ -49,6 +50,16 @@
 %token QUESTION "?"
 %token RARROW "->"
 %token SEMI_COlON ";"
+%token SNOC "<|"
+%token IN "in"
+%token LISTCONCAT "++"
+%token SUM "+"
+%token PRODUCT "*"
+%token F_SLASH "/"
+%token DIV "div"
+%token MOD "mod"
+%token WHERE "whr"
+%token END "end"
 %token EOF
 
 %%
