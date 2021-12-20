@@ -29,7 +29,9 @@ bin_op:
   | "=="                                           { `Equality }
   | "!="                                           { `Equality }
   | "<"                                            { `LessThan }
+  | "<="                                           { `LessThanEqual }
   | ">"                                            { `GreaterThan }
+  | ">="                                           { `GreaterThanEqual }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }

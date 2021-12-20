@@ -77,7 +77,9 @@ and data_bin_op =
   | `Equality
   | `Inequality
   | `LessThan
+  | `LessThanEqual
   | `GreaterThan
+  | `GreaterThanEqual
   ]
 [@@deriving show, eq]
 

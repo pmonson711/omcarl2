@@ -68,7 +68,9 @@ rule read_tokens =
   | "=="       { EQUALITY }
   | "!="       { INEQUALITY }
   | '<'        { LESSTHAN }
+  | "<="       { LESSTHANEQUAL }
   | '>'        { GREATERTHAN }
+  | ">="       { GREATERTHANEQUAL }
   | "forall"   { FORALL }
   | "exists"   { EXISTS }
   | "lambda"   { LAMBDA }
