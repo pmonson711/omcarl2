@@ -6,4 +6,5 @@ prog:
   | v = value { Some v }
 
 value:
-  | exp= cons_exp; SEMI_COlON { `ConsDecl exp }
+  | exp= var_exp; SEMI_COlON { `EqnDecl exp }
+  | exp= eqn_exp; SEMI_COlON { `EqnDecl exp }

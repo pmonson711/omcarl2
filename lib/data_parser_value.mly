@@ -6,4 +6,4 @@ prog:
   | v = value;      { Some v }
 
 value:
-  | exp= data_expr; { exp }
+  | exp= data_expr; SEMI_COlON { exp }

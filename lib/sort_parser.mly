@@ -1,4 +1,4 @@
-%right "->"
+%left "->"
 %right "#"
 
 %%
@@ -8,8 +8,8 @@
   | INT                                            { `Integer }
   | NAT                                            { `Natural }
   | POS                                            { `Positive }
-  | REAL                                           { `Real } 
-  | STRUCT; def= constr_decl_list;                 { `Struct def } 
+  | REAL                                           { `Real }
+  | STRUCT; def= constr_decl_list;                 { `Struct def }
   | LIST; LPARAN; exp= sort_exp; RPARAN            { `List exp }
   | BAG;  LPARAN; exp= sort_exp; RPARAN            { `Bag exp }
   | SET;  LPARAN; exp= sort_exp; RPARAN            { `Set exp }
@@ -22,7 +22,7 @@
 
 constr_decl:
   | id= ID; proj= proj_decl                        { `TConstr (id, [proj], None) }
-  | id= ID; LPARAN; proj= proj_decl_list; RPARAN; 
+  | id= ID; LPARAN; proj= proj_decl_list; RPARAN;
             QUESTION; q= ID                        { `TConstr (id, proj, Some q) }
   | id= ID; LPARAN; proj= proj_decl_list; RPARAN;  { `TConstr (id, proj, None) }
   | id= ID; QUESTION; q= ID                        { `Constr (id, Some q) }

@@ -1,62 +1,55 @@
 (library
  (public_name omcrl2)
  (preprocess
-  (pps ppx_deriving.show ppx_deriving.eq)))
+  (pps ppx_deriving.show ppx_deriving.eq))
+ (libraries menhirLib))
 
 (ocamllex
  (modules lexer))
 
 (menhir
  (modules tokens)
- (flags --unused-tokens --only-tokens))
+ (flags --unused-tokens --only-tokens --table))
 
 (menhir
  (modules tokens sort_parser sort_parser_value)
  (merge_into sort_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token EXCLAIM)
-  (--unused-token FALSE)
-  (--unused-token L_BRACE)
-  (--unused-token L_BRACK)
-  (--unused-token NUMBER)
-  (--unused-token R_BRACE)
-  (--unused-token R_BRACK)
-  (--unused-token FORALL)
-  (--unused-token DOT)
-  (--unused-token NEGATION)
-  (--unused-token EXISTS)
-  (--unused-token LAMBDA)
-  (--unused-token TRUE)))
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
 
 (menhir
  (modules tokens sort_parser cons_parser cons_parser_value)
  (merge_into cons_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token EQUAL)
-  (--unused-token EXCLAIM)
-  (--unused-token FALSE)
-  (--unused-token L_BRACE)
-  (--unused-token L_BRACK)
-  (--unused-token NUMBER)
-  (--unused-token R_BRACE)
-  (--unused-token R_BRACK)
-  (--unused-token FORALL)
-  (--unused-token DOT)
-  (--unused-token NEGATION)
-  (--unused-token EXISTS)
-  (--unused-token LAMBDA)
-  (--unused-token TRUE)))
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
 
 (menhir
  (modules tokens sort_parser data_parser data_parser_value)
  (merge_into data_parser)
  (flags
   --explain
-  (--external-tokens Tokens)
-  (--unused-token SEMI_COlON)
-  (--unused-token EXISTS)
-  (--unused-token EQUAL)))
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser map_parser map_parser_value)
+ (merge_into map_parser)
+ (flags
+  --explain
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser data_parser eqn_parser eqn_parser_value)
+ (merge_into eqn_parser)
+ (flags
+  --explain
+  --table
+  (--external-tokens Tokens)))

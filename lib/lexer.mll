@@ -1,7 +1,7 @@
 {
 open Lexing
 open Tokens
-  
+
 exception SyntaxError of string
 
 let next_line lexbuf =
@@ -54,6 +54,7 @@ rule read_tokens =
   | '('        { LPARAN }
   | ')'        { RPARAN }
   | "->"       { RARROW }
+  | "=>"       { DRARROW }
   | '#'        { HASH }
   | ':'        { COLON }
   | ','        { COMMA }
@@ -63,6 +64,23 @@ rule read_tokens =
   | '!'        { EXCLAIM }
   | ';'        { SEMI_COlON }
   | '-'        { NEGATION }
+  | "||"       { DBAR }
+  | "=="       { EQUALITY }
+  | "!="       { INEQUALITY }
+  | '<'        { LESSTHAN }
+  | "<="       { LESSTHANEQUAL }
+  | '>'        { GREATERTHAN }
+  | ">="       { GREATERTHANEQUAL }
+  | "in"       { IN }
+  | "<|"       { SNOC }
+  | "|>"       { CONS }
+  | "++"       { LISTCONCAT }
+  | '+'        { SUM }
+  | '*'        { PRODUCT }
+  | "div"      { DIV }
+  | "mod"      { MOD }
+  | "whr"      { WHERE }
+  | "end"      { END }
   | "forall"   { FORALL }
   | "exists"   { EXISTS }
   | "lambda"   { LAMBDA }

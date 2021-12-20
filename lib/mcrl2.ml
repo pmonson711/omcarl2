@@ -66,8 +66,36 @@ and data_expr =
   | `ForAll           of var_decl list * data_expr
   | `Exists           of var_decl list * data_expr
   | `Lambda           of var_decl list * data_expr
+  | `BinOp            of data_expr * data_bin_op * data_expr
+  | `WhereOp          of data_expr * assignment list
   ]
 [@@deriving show, eq]
+
+and data_bin_op =
+  [ `Cons
+  | `Equality
+  | `GreaterThan
+  | `GreaterThanEqual
+  | `In
+  | `Inequality
+  | `LessThan
+  | `LessThanEqual
+  | `LogicalAnd
+  | `LogicalImplication
+  | `LogicalOr
+  | `Snoc
+  | `ListConcat
+  | `Sum
+  | `Difference
+  | `Product
+  | `Quotient
+  | `IntegerDivision
+  | `Remainder
+  | `AtPosition
+  ]
+[@@deriving show, eq]
+
+and assignment = [ `Assignment of string * data_expr ] [@@deriving show, eq]
 
 and var_decl =
   [ `VarDecl  of string * sort_exp
@@ -80,10 +108,17 @@ and bag_enum_elt = [ `BagEnumElt of data_expr * data_expr ]
 
 and map_decl = [ `IdsDecl of string list * sort_exp ] [@@deriving show, eq]
 
+and eqn_decl =
+  [ `Var of string list * sort_exp
+  | `Eqn of data_expr option * data_expr * data_expr
+  ]
+[@@deriving show, eq]
+
 type t =
   [ `Section  of section
   | `SortDecl of sort_decl
   | `ConsDecl of cons_decl
   | `MapDecl  of map_decl
+  | `EqnDecl  of eqn_decl
   ]
 [@@deriving show, eq]

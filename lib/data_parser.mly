@@ -17,13 +17,41 @@
                                                    { `Exists (vars, expr) }
   | "lambda"; vars= vars_decl_list; "."; expr= data_expr
                                                    { `Lambda (vars, expr) }
+  | expr= bin                                      { expr }
+
+bin:
+  | left= data_expr; op= bin_op; right= data_expr  { `BinOp (left, op, right) }
+  | expr= data_expr; WHERE; lst= assignment_list; END
+                                                   { `WhereOp (expr, lst) }
+
+bin_op:
+  | "=>"                                           { `LogicalImplication }
+  | "||"                                           { `LogicalOr }
+  | "&&"                                           { `LogicalAnd }
+  | "=="                                           { `Equality }
+  | "!="                                           { `Equality }
+  | "<"                                            { `LessThan }
+  | "<="                                           { `LessThanEqual }
+  | ">"                                            { `GreaterThan }
+  | ">="                                           { `GreaterThanEqual }
+  | "|>"                                           { `Cons }
+  | "<|"                                           { `Snoc }
+  | "in"                                           { `In }
+  | "++"                                           { `ListConcat }
+  | "+"                                            { `Sum }
+  | "-"                                            { `Difference }
+  | "*"                                            { `Product }
+  | "/"                                            { `Quotient }
+  | "div"                                          { `IntegerDivision }
+  | "mod"                                          { `Remainder }
+  | "."                                            { `AtPosition }
 
 sets:
   | "{"; v= var_decl; "|"; e= data_expr; "}"       { `SetComprehension (v, e) }
   | "{"; lst= data_expr_list; "}"                  { `Set lst }
   | L_BRACK; R_BRACK                               { `Set [] }
 
-bags: 
+bags:
   | L_BRACK; COLON; R_BRACK                        { `Bag [] }
   | L_BRACK; exprs= bag_enum_elt_list; R_BRACK     { `Bag exprs }
 
@@ -58,11 +86,11 @@ vars_decl:
 vars_decl_list:
   | lst= separated_nonempty_list(COMMA, vars_decl) { lst }
 
-(* assignment: *)
-(*   | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) } *)
+assignment:
+  | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) }
 
-(* assignment_list: *)
-(*   | lst= separated_nonempty_list(COMMA, assignment) { lst } *)
+assignment_list:
+  | lst= separated_nonempty_list(COMMA, assignment) { lst }
 
 set_update:
   | exp1= ID; "["; exp2= data_expr; "->"; exp3= data_expr "]"
