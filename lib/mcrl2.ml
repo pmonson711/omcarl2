@@ -1,11 +1,3 @@
-type section =
-  | Sort
-  | Cons
-  | Map
-  | Var
-  | Eqn
-[@@deriving show, eq]
-
 type sort_type_op =
   | Lambda
   | Tuple
@@ -114,11 +106,19 @@ and eqn_decl =
   ]
 [@@deriving show, eq]
 
+and glob_decl = [ `Glob of string list * sort_exp ] [@@deriving show, eq]
+
+and act_decl =
+  [ `DataAct of string list * sort_exp
+  | `Act of string list
+] [@@deriving show, eq]
+
 type t =
-  [ `Section  of section
-  | `SortDecl of sort_decl
+  [ `SortDecl of sort_decl
   | `ConsDecl of cons_decl
   | `MapDecl  of map_decl
   | `EqnDecl  of eqn_decl
+  | `GlobDecl of glob_decl
+  | `ActDecl  of act_decl
   ]
 [@@deriving show, eq]

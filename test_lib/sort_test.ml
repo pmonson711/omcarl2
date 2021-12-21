@@ -12,10 +12,6 @@ let parse str =
 
 let is_value id t = Some (`SortDecl (`Id (id, t)))
 
-let sort_sanity () =
-  let open Omcrl2.Mcrl2 in
-  Alcotest.(check mcrl2) "has sane equal" (`Section Sort) (`Section Sort)
-
 let empty () = Alcotest.(check (option mcrl2)) "empty is none" None (parse "")
 
 let under_defined () =
@@ -101,7 +97,6 @@ let case =
   let open Alcotest in
   ( test_name
   , [ test_case "Empty" `Quick empty
-    ; test_case "sanity check" `Quick sort_sanity
     ; test_case "underdefined" `Quick under_defined
     ; test_case "Primitive types" `Quick primitive
     ; test_case "Lists, Bags, and Sets" `Quick lists_bags_sets

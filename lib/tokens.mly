@@ -13,11 +13,13 @@
 %token <string> ID
 %token <int> NUMBER
 
-(* %token SORT_SEC *)
-(* %token CONS_SEC *)
-(* %token MAP_SEC *)
-(* %token VAR_SEC *)
-(* %token EQN_SEC *)
+%token SORT_SEC
+%token CONS_SEC
+%token MAP_SEC
+%token VAR_SEC
+%token EQN_SEC
+%token GLOB_SEC
+%token ACT_SEC
 
 (* DATA SECTION *)
 %token TRUE "true"
