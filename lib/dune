@@ -75,11 +75,21 @@
   (--external-tokens Tokens)))
 
 (menhir
- (modules tokens sort_parser cons_parser data_parser eqn_parser map_parser
-   glob_parser act_parser mcrl_parser)
- (merge_into mcrl_parser)
+ (modules tokens sort_parser data_parser proc_parser proc_parser_value)
+ (merge_into proc_parser)
  (flags
   --explain
   --unused-tokens
   --table
+  --lalr
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser cons_parser data_parser eqn_parser map_parser
+   glob_parser act_parser proc_parser mcrl_parser)
+ (merge_into mcrl_parser)
+ (flags
+  --explain
+  --table
+  --lalr
   (--external-tokens Tokens)))

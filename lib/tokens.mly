@@ -1,4 +1,5 @@
 (* tokens only *)
+%token EOF
 %token BOOL
 %token INT
 %token NAT
@@ -20,6 +21,8 @@
 %token EQN_SEC
 %token GLOB_SEC
 %token ACT_SEC
+%token PROC_SEC
+%token INIT_SEC
 
 (* DATA SECTION *)
 %token TRUE "true"
@@ -62,6 +65,11 @@
 %token MOD "mod"
 %token WHERE "whr"
 %token END "end"
-%token EOF
+
+(* PROC SECTION *)
+%token DELTA
+%token TAU
+%token SUMMATION "sum"
+%token DIAMOND "<>"
 
 %%

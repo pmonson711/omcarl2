@@ -13,6 +13,7 @@ sections:
   | eqns=eqn_spec;                                 { eqns }
   | globs=glob_spec;                               { globs }
   | acts=act_spec;                                 { acts }
+  | procs=proc_spec;                               { procs }
 
 sort_spec:
   | SORT_SEC; sorts= sort_value+                   { sorts }
@@ -62,3 +63,9 @@ act_spec:
 
 act_value:
   | exp= act_exp; SEMI_COlON                       { `ActDecl exp }
+
+proc_spec:
+  | PROC_SEC; procs= proc_value*                   { procs }
+
+proc_value:
+  | exp= proc_decl; SEMI_COlON                     { `ProcDecl exp }
