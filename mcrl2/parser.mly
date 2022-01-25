@@ -1,22 +1,25 @@
 %token <string> STR
 %token <string> ID
-(* %token <int> NUMBER *)
-%token PERCENT "%"
-%token SORT
+%token <int> NUMBER
+(** Sections *)
+%token ACT
 %token CONS
-(* %token EQN *)
-(* %token GLOB *)
-(* %token ACT *)
-(* %token PROC *)
+%token EQN
+%token GLOB
 %token INIT
-%token SEMICOLON ";"
+%token PROC
+%token SORT
+(** Char *)
 %token COLON ":"
 %token COMMA ","
-%token R_PARAN "("
-%token L_PARAN ")"
-%token Q_MARK "?"
-%token V_BAR "|"
 %token EQUAL "="
+%token L_PARAN "("
+%token PERCENT "%"
+%token Q_MARK "?"
+%token R_PARAN ")"
+%token SEMICOLON ";"
+%token V_BAR "|"
+(** Sort Words *)
 %token S_BOOL
 %token S_POS
 %token S_NAT
@@ -27,9 +30,9 @@
 %token S_FSET
 %token S_FBAG
 %token STRUCT
+(** Infix *)
 %token R_ARROW "->"
 %token HASH "#"
-(* %token DELTA *)
 %token PROCEXP
 %token EOF
 %token EOL
@@ -39,9 +42,13 @@
 
 %{ open Grammar %}
 %start <Spec.t> spec
+%start <sort_decl> sort_decl
 %%
 
-let comment == "%"+; text= STR; EOL?;            { Comment.make ~text ~loc:$loc }
+let comment ==
+    | "%"+; text= STR;                           { make_comment ~text }
+    | "%"+; text= ID;                            { make_comment ~text }
+
 let id == i= ID; ":";                            { i }
 let pw(x) := | "("; x = x; ")";                  { x }
 let guard == | "?"; id= id;                      { id }
@@ -86,8 +93,9 @@ let sort_expr :=
     | rh= sort_expr; "#"; lh= sort_expr;         { Tuple (rh, lh) }
 
 let sort_decl :=
+    | id= ID; ";";                               { IdList [id] }
     | lst= id_list; ";";                         { IdList lst }
-    | id= ID; "="; s= sort_expr; ";";            { SortType ( make_sort_type ~id ~signature:s) }
+    | id= ID; "="; s= sort_expr; ";";            { SortType ( make_sort_type ~id ~signature:s ) }
 
 let ids_decl :=
     | lst= id_list; ":"; sort_expr= sort_expr;   { make_ids_decl ~id_list:lst ~sort_expr () }
@@ -103,4 +111,4 @@ let specs :=
     (* | PROC;                                      { ProcSpec } *)
 
 let spec :=
-    | specs= specs+; init= init?; EOF;           { Spec.make ~specs ?init ~loc:$loc () }
+    | specs= specs+; init= init?; EOF;           { Spec.make ~specs ?init () }

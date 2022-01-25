@@ -25,27 +25,37 @@ rule read =
   parse
   | whitespace { read lexbuf }
   | newline    { read lexbuf }
+  (** Sections *)
+  | "sort"     { SORT }
+  | "cons"     { CONS }
+  | "eqn"      { EQN }
+  | "glob"     { GLOB }
+  | "act"      { ACT }
+  | "proc"     { PROC }
+  (** Char *)
+  | ':'        { COLON }
+  | ','        { COMMA }
+  | '('        { L_PARAN }
   | '%'        { PERCENT }
+  | '?'        { Q_MARK }
+  | ')'        { R_PARAN }
   | ';'        { SEMICOLON }
-  | "init"     { INIT }
-  (* | "delta"    { DELTA } *)
-  (* | digit+     { POS (int_of_string (Lexing.lexeme lexbuf)) } *)
-  | str        { STR (Lexing.lexeme lexbuf) }
+  | "|"        { V_BAR }
+  (** Infix *)
+  | "->"       { R_ARROW }
+  | "#"        { HASH }
+  (** Sort Words *)
+  | "Bool"     { S_BOOL }
+  | "Pos"      { S_POS }
+  | "Nat"      { S_NAT }
+  | "Int"      { S_INT }
+  | "Real"     { S_REAL }
+  | "Bag"      { S_BAG }
+  | "FBag"     { S_FBAG }
+  | "FSet"     { S_FSET }
+  | "struct"   { STRUCT }
+  | digit      { NUMBER (Lexing.lexeme lexbuf |> int_of_string) }
   | id         { ID (Lexing.lexeme lexbuf) }
-  (* | digit      { NUMBER (Lexing.lexeme lexbuf |> int_of_string) } *)
-  (* | '"'        { read_string (Buffer.create 17) lexbuf } *)
+  | str        { STR (Lexing.lexeme lexbuf) }
   | _          { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
   | eof        { EOF }
-
-(* and read_string buf = *)
-(*   parse *)
-(*   | '"'        { Q_STR (Buffer.contents buf) } *)
-(*   | '\\' '"'   { Buffer.add_char buf '"'; read_string buf lexbuf } *)
-(*   | '\\' 'n'   { Buffer.add_char buf '\n'; read_string buf lexbuf } *)
-(*   | '\\' 'r'   { Buffer.add_char buf '\r'; read_string buf lexbuf } *)
-(*   | '\\' 't'   { Buffer.add_char buf '\t'; read_string buf lexbuf } *)
-(*   | [^ '"' '\\']+ *)
-(*     { Buffer.add_string buf (Lexing.lexeme lexbuf); *)
-(*       read_string buf lexbuf } *)
-(*   | _          { raise (SyntaxError ("Illegal string character: " ^ Lexing.lexeme lexbuf)) } *)
-(*   | eof        { raise (SyntaxError ("String is not terminated")) } *)

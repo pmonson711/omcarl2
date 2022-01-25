@@ -1,0 +1,596 @@
+spec: CONS ID COLON ID SEMICOLON V_BAR
+##
+## Ends in an error in state: 77.
+##
+## nonempty_list(ending_comma(ids_decl)) -> ending_comma(ids_decl) . [ SORT PERCENT INIT EOF CONS ]
+## nonempty_list(ending_comma(ids_decl)) -> ending_comma(ids_decl) . nonempty_list(ending_comma(ids_decl)) [ SORT PERCENT INIT EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## ending_comma(ids_decl)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: CONS ID COLON S_REAL V_BAR
+##
+## Ends in an error in state: 73.
+##
+## ids_decl -> separated_nonempty_list(COMMA,ID) COLON sort_expr . [ SEMICOLON ]
+## sort_expr -> sort_expr . R_ARROW sort_expr [ SEMICOLON R_ARROW HASH ]
+## sort_expr -> sort_expr . HASH sort_expr [ SEMICOLON R_ARROW HASH ]
+##
+## The known suffix of the stack is as follows:
+## separated_nonempty_list(COMMA,ID) COLON sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: CONS ID COLON V_BAR
+##
+## Ends in an error in state: 72.
+##
+## ids_decl -> separated_nonempty_list(COMMA,ID) COLON . sort_expr [ SEMICOLON ]
+##
+## The known suffix of the stack is as follows:
+## separated_nonempty_list(COMMA,ID) COLON
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: CONS ID SEMICOLON
+##
+## Ends in an error in state: 71.
+##
+## ids_decl -> separated_nonempty_list(COMMA,ID) . COLON sort_expr [ SEMICOLON ]
+##
+## The known suffix of the stack is as follows:
+## separated_nonempty_list(COMMA,ID)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 51, spurious reduction of production separated_nonempty_list(COMMA,ID) -> ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: CONS ID V_BAR
+##
+## Ends in an error in state: 51.
+##
+## separated_nonempty_list(COMMA,ID) -> ID . [ SEMICOLON COLON ]
+## separated_nonempty_list(COMMA,ID) -> ID . COMMA separated_nonempty_list(COMMA,ID) [ SEMICOLON COLON ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: CONS V_BAR
+##
+## Ends in an error in state: 70.
+##
+## specs -> CONS . nonempty_list(ending_comma(ids_decl)) [ SORT PERCENT INIT EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## CONS
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: PERCENT STR INIT PROCEXP SEMICOLON CONS
+##
+## Ends in an error in state: 89.
+##
+## spec -> nonempty_list(specs) option(init) . EOF [ # ]
+##
+## The known suffix of the stack is as follows:
+## nonempty_list(specs) option(init)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: PERCENT STR INIT PROCEXP V_BAR
+##
+## Ends in an error in state: 87.
+##
+## init -> INIT PROCEXP . SEMICOLON [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## INIT PROCEXP
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: PERCENT STR INIT V_BAR
+##
+## Ends in an error in state: 86.
+##
+## init -> INIT . PROCEXP SEMICOLON [ EOF ]
+##
+## The known suffix of the stack is as follows:
+## INIT
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: PERCENT STR V_BAR
+##
+## Ends in an error in state: 79.
+##
+## nonempty_list(specs) -> specs . [ INIT EOF ]
+## nonempty_list(specs) -> specs . nonempty_list(specs) [ INIT EOF ]
+##
+## The known suffix of the stack is as follows:
+## specs
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: PERCENT V_BAR
+##
+## Ends in an error in state: 68.
+##
+## nonempty_list(PERCENT) -> PERCENT . [ STR ID ]
+## nonempty_list(PERCENT) -> PERCENT . nonempty_list(PERCENT) [ STR ID ]
+##
+## The known suffix of the stack is as follows:
+## PERCENT
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT ID COMMA ID COLON
+##
+## Ends in an error in state: 64.
+##
+## sort_decl -> separated_nonempty_list(COMMA,ID) . SEMICOLON [ SORT PERCENT INIT ID EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## separated_nonempty_list(COMMA,ID)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 51, spurious reduction of production separated_nonempty_list(COMMA,ID) -> ID
+## In state 52, spurious reduction of production separated_nonempty_list(COMMA,ID) -> ID COMMA separated_nonempty_list(COMMA,ID)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT ID EQUAL S_REAL V_BAR
+##
+## Ends in an error in state: 61.
+##
+## sort_decl -> ID EQUAL sort_expr . SEMICOLON [ SORT PERCENT INIT ID EOF CONS ]
+## sort_expr -> sort_expr . R_ARROW sort_expr [ SEMICOLON R_ARROW HASH ]
+## sort_expr -> sort_expr . HASH sort_expr [ SEMICOLON R_ARROW HASH ]
+##
+## The known suffix of the stack is as follows:
+## ID EQUAL sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT ID EQUAL V_BAR
+##
+## Ends in an error in state: 60.
+##
+## sort_decl -> ID EQUAL . sort_expr SEMICOLON [ SORT PERCENT INIT ID EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## ID EQUAL
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT ID SEMICOLON V_BAR
+##
+## Ends in an error in state: 63.
+##
+## nonempty_list(sort_decl) -> sort_decl . [ SORT PERCENT INIT EOF CONS ]
+## nonempty_list(sort_decl) -> sort_decl . nonempty_list(sort_decl) [ SORT PERCENT INIT EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## sort_decl
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT ID V_BAR
+##
+## Ends in an error in state: 58.
+##
+## separated_nonempty_list(COMMA,ID) -> ID . [ SEMICOLON ]
+## separated_nonempty_list(COMMA,ID) -> ID . COMMA separated_nonempty_list(COMMA,ID) [ SEMICOLON ]
+## sort_decl -> ID . SEMICOLON [ SORT PERCENT INIT ID EOF CONS ]
+## sort_decl -> ID . EQUAL sort_expr SEMICOLON [ SORT PERCENT INIT ID EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: SORT V_BAR
+##
+## Ends in an error in state: 57.
+##
+## specs -> SORT . nonempty_list(sort_decl) [ SORT PERCENT INIT EOF CONS ]
+##
+## The known suffix of the stack is as follows:
+## SORT
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+spec: V_BAR
+##
+## Ends in an error in state: 56.
+##
+## spec' -> . spec [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID COMMA ID COLON
+##
+## Ends in an error in state: 54.
+##
+## sort_decl -> separated_nonempty_list(COMMA,ID) . SEMICOLON [ # ]
+##
+## The known suffix of the stack is as follows:
+## separated_nonempty_list(COMMA,ID)
+##
+## WARNING: This example involves spurious reductions.
+## This implies that, although the LR(1) items shown above provide an
+## accurate view of the past (what has been recognized so far), they
+## may provide an INCOMPLETE view of the future (what was expected next).
+## In state 51, spurious reduction of production separated_nonempty_list(COMMA,ID) -> ID
+## In state 52, spurious reduction of production separated_nonempty_list(COMMA,ID) -> ID COMMA separated_nonempty_list(COMMA,ID)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID COMMA V_BAR
+##
+## Ends in an error in state: 50.
+##
+## separated_nonempty_list(COMMA,ID) -> ID COMMA . separated_nonempty_list(COMMA,ID) [ SEMICOLON COLON ]
+##
+## The known suffix of the stack is as follows:
+## ID COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL L_PARAN S_REAL V_BAR
+##
+## Ends in an error in state: 45.
+##
+## pw(sort_expr) -> L_PARAN sort_expr . R_PARAN [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+## sort_expr -> sort_expr . R_ARROW sort_expr [ R_PARAN R_ARROW HASH ]
+## sort_expr -> sort_expr . HASH sort_expr [ R_PARAN R_ARROW HASH ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAN sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL L_PARAN V_BAR
+##
+## Ends in an error in state: 8.
+##
+## pw(sort_expr) -> L_PARAN . sort_expr R_PARAN [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAN
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN ID COLON V_BAR
+##
+## Ends in an error in state: 28.
+##
+## proj_decl -> option(id) . sort_expr [ R_PARAN COMMA ]
+##
+## The known suffix of the stack is as follows:
+## option(id)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN ID V_BAR
+##
+## Ends in an error in state: 21.
+##
+## option(id) -> ID . COLON [ S_REAL S_POS S_NAT S_LIST S_INT S_FSET S_FBAG S_BOOL S_BAG STRUCT L_PARAN ID ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_BOOL R_PARAN Q_MARK ID COLON S_REAL
+##
+## Ends in an error in state: 42.
+##
+## separated_nonempty_list(V_BAR,constr_decl) -> constr_decl . [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+## separated_nonempty_list(V_BAR,constr_decl) -> constr_decl . V_BAR separated_nonempty_list(V_BAR,constr_decl) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## constr_decl
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_BOOL R_PARAN Q_MARK ID V_BAR
+##
+## Ends in an error in state: 38.
+##
+## option(guard) -> Q_MARK ID . COLON [ V_BAR SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## Q_MARK ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_BOOL R_PARAN Q_MARK V_BAR
+##
+## Ends in an error in state: 37.
+##
+## option(guard) -> Q_MARK . ID COLON [ V_BAR SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## Q_MARK
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_BOOL R_PARAN S_REAL
+##
+## Ends in an error in state: 36.
+##
+## constr_decl -> ID COLON pw(proj_decl_list) . option(guard) [ V_BAR SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON pw(proj_decl_list)
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_BOOL R_PARAN V_BAR V_BAR
+##
+## Ends in an error in state: 43.
+##
+## separated_nonempty_list(V_BAR,constr_decl) -> constr_decl V_BAR . separated_nonempty_list(V_BAR,constr_decl) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## constr_decl V_BAR
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_REAL COMMA V_BAR
+##
+## Ends in an error in state: 26.
+##
+## separated_nonempty_list(COMMA,proj_decl) -> proj_decl COMMA . separated_nonempty_list(COMMA,proj_decl) [ R_PARAN ]
+##
+## The known suffix of the stack is as follows:
+## proj_decl COMMA
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN S_REAL V_BAR
+##
+## Ends in an error in state: 30.
+##
+## proj_decl -> option(id) sort_expr . [ R_PARAN COMMA ]
+## sort_expr -> sort_expr . R_ARROW sort_expr [ R_PARAN R_ARROW HASH COMMA ]
+## sort_expr -> sort_expr . HASH sort_expr [ R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## option(id) sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON L_PARAN V_BAR
+##
+## Ends in an error in state: 20.
+##
+## pw(proj_decl_list) -> L_PARAN . separated_nonempty_list(COMMA,proj_decl) R_PARAN [ V_BAR SEMICOLON R_PARAN R_ARROW Q_MARK HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## L_PARAN
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID COLON V_BAR
+##
+## Ends in an error in state: 19.
+##
+## constr_decl -> ID COLON . pw(proj_decl_list) option(guard) [ V_BAR SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID COLON
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT ID V_BAR
+##
+## Ends in an error in state: 18.
+##
+## constr_decl -> ID . COLON pw(proj_decl_list) option(guard) [ V_BAR SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL STRUCT V_BAR
+##
+## Ends in an error in state: 17.
+##
+## sort_expr -> STRUCT . separated_nonempty_list(V_BAR,constr_decl) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## STRUCT
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_BAG V_BAR
+##
+## Ends in an error in state: 15.
+##
+## sort_expr -> S_BAG . pw(sort_expr) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## S_BAG
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_FBAG V_BAR
+##
+## Ends in an error in state: 12.
+##
+## sort_expr -> S_FBAG . pw(sort_expr) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## S_FBAG
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_FSET V_BAR
+##
+## Ends in an error in state: 10.
+##
+## sort_expr -> S_FSET . pw(sort_expr) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## S_FSET
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_LIST V_BAR
+##
+## Ends in an error in state: 7.
+##
+## sort_expr -> S_LIST . pw(sort_expr) [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## S_LIST
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_REAL HASH V_BAR
+##
+## Ends in an error in state: 33.
+##
+## sort_expr -> sort_expr HASH . sort_expr [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## sort_expr HASH
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_REAL R_ARROW S_REAL V_BAR
+##
+## Ends in an error in state: 32.
+##
+## sort_expr -> sort_expr . R_ARROW sort_expr [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+## sort_expr -> sort_expr R_ARROW sort_expr . [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+## sort_expr -> sort_expr . HASH sort_expr [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## sort_expr R_ARROW sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_REAL R_ARROW V_BAR
+##
+## Ends in an error in state: 31.
+##
+## sort_expr -> sort_expr R_ARROW . sort_expr [ SEMICOLON R_PARAN R_ARROW HASH COMMA ]
+##
+## The known suffix of the stack is as follows:
+## sort_expr R_ARROW
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL S_REAL V_BAR
+##
+## Ends in an error in state: 48.
+##
+## sort_decl -> ID EQUAL sort_expr . SEMICOLON [ # ]
+## sort_expr -> sort_expr . R_ARROW sort_expr [ SEMICOLON R_ARROW HASH ]
+## sort_expr -> sort_expr . HASH sort_expr [ SEMICOLON R_ARROW HASH ]
+##
+## The known suffix of the stack is as follows:
+## ID EQUAL sort_expr
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID EQUAL V_BAR
+##
+## Ends in an error in state: 3.
+##
+## sort_decl -> ID EQUAL . sort_expr SEMICOLON [ # ]
+##
+## The known suffix of the stack is as follows:
+## ID EQUAL
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: ID V_BAR
+##
+## Ends in an error in state: 1.
+##
+## separated_nonempty_list(COMMA,ID) -> ID . [ SEMICOLON ]
+## separated_nonempty_list(COMMA,ID) -> ID . COMMA separated_nonempty_list(COMMA,ID) [ SEMICOLON ]
+## sort_decl -> ID . SEMICOLON [ # ]
+## sort_decl -> ID . EQUAL sort_expr SEMICOLON [ # ]
+##
+## The known suffix of the stack is as follows:
+## ID
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
+sort_decl: V_BAR
+##
+## Ends in an error in state: 0.
+##
+## sort_decl' -> . sort_decl [ # ]
+##
+## The known suffix of the stack is as follows:
+##
+##
+
+<YOUR SYNTAX ERROR MESSAGE HERE>
+
