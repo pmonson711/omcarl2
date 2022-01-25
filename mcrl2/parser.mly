@@ -43,32 +43,31 @@
 
 let comment == "%"+; text= STR; EOL?;            { Comment.make ~text ~loc:$loc }
 let id == i= ID; ":";                            { i }
-let parans(x) := | "("; x = x; ")";              { x }
+let pw(x) := | "("; x = x; ")";                  { x }
 let guard == | "?"; id= id;                      { id }
 let ending_comma(x) := | x= x; ";";              { x }
+let c_lst(x) ==
+    lst= separated_nonempty_list(",", x);        { lst }
+let b_lst(x) ==
+    lst= separated_nonempty_list("|", x);        { lst }
+let id_list == | lst= c_lst(ID);                 { lst }
 
 let init :=
     | INIT; PROCEXP; ";";                        { ProcExpr }
 
 (** Data Specifications *)
 let proj_decl :=
-    | i= option(id); sort_expr= sort_expr;       { { proj_id= i
-                                                   ; sort_expr
-                                                   } }
-let proj_decl_list ==
-    | lst= separated_nonempty_list(",",
-                                   proj_decl);   { lst }
+    | i= option(id); sort_expr= sort_expr;       { { proj_id= i ; sort_expr } }
+
+let proj_decl_list == lst= c_lst(proj_decl);     { lst }
 
 let constr_decl :=
-    | id= id; proj_decls= parans(proj_decl_list); guard= guard?;
-                                                 { { const_id= id
-                                                   ; proj_decls
-                                                   ; guard
+    | i= id; p= pw(proj_decl_list); g= guard?;   { { const_id= i
+                                                   ; proj_decls= p
+                                                   ; guard= g
                                                    } }
 
-let constr_decl_list ==
-    | lst= separated_nonempty_list("|", constr_decl);
-                                                 { lst }
+let constr_decl_list == lst= b_lst(constr_decl); { lst }
 
 let sort_expr :=
     | S_BOOL;                                    { Bool }
@@ -76,26 +75,22 @@ let sort_expr :=
     | S_NAT;                                     { Nat }
     | S_INT;                                     { Int }
     | S_REAL;                                    { Real }
-    | S_LIST; t= parans(sort_expr);              { List t }
-    | S_BAG; t= parans(sort_expr);               { List t }
-    | S_FSET; t= parans(sort_expr);              { List t }
-    | S_FBAG; t= parans(sort_expr);              { List t }
+    | S_LIST; t= pw(sort_expr);                  { List t }
+    | S_BAG; t= pw(sort_expr);                   { List t }
+    | S_FSET; t= pw(sort_expr);                  { List t }
+    | S_FBAG; t= pw(sort_expr);                  { List t }
     | id= ID;                                    { Id id }
-    | sort_expr= parans(sort_expr);              { SubExpr sort_expr }
+    | sort_expr= pw(sort_expr);                  { SubExpr sort_expr }
     | STRUCT; lst= constr_decl_list;             { Struct lst }
     | rh= sort_expr; "->"; lh= sort_expr;        { Function (rh, lh) }
     | rh= sort_expr; "#"; lh= sort_expr;         { Tuple (rh, lh) }
 
 let sort_decl :=
-    | lst= separated_nonempty_list(",", ID); ";";
-                                                 { IdList lst }
-    | id= ID; "="; signature= sort_expr; ";";    { SortType ( make_sort_type ~id
-                                                                ~signature
-                                                            )
-                                                 }
+    | lst= id_list; ";";                         { IdList lst }
+    | id= ID; "="; s= sort_expr; ";";            { SortType ( make_sort_type ~id ~signature:s) }
+
 let ids_decl :=
-    | lst= separated_nonempty_list(",", ID); ":"; sort_expr= sort_expr;
-                                                 { make_ids_decl ~id_list:lst ~sort_expr () }
+    | lst= id_list; ":"; sort_expr= sort_expr;   { make_ids_decl ~id_list:lst ~sort_expr () }
 
 (** Main Specification *)
 let specs :=
