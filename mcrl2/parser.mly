@@ -13,13 +13,20 @@
 %token COLON ":"
 %token COMMA ","
 %token EQUAL "="
+%token L_BRACE "{"
+%token L_BRACK "["
 %token L_PARAN "("
 %token PERCENT "%"
 %token Q_MARK "?"
+%token R_BRACE "}"
+%token R_BRACK "]"
 %token R_PARAN ")"
 %token SEMICOLON ";"
 %token V_BAR "|"
-(** Sort Words *)
+%token EXCLAIM "!"
+%token MINUS "-"
+%token DOT "."
+(** Sort Terminals *)
 %token S_BOOL
 %token S_POS
 %token S_NAT
@@ -30,8 +37,14 @@
 %token S_FSET
 %token S_FBAG
 %token STRUCT
-(** Infix *)
+%token TRUE
+%token FALSE
+%token FORALL
+%token EXISTS
+%token LAMBDA
+(** Infix Terminals *)
 %token R_ARROW "->"
+%token R_FARROW "=>"
 %token HASH "#"
 %token PROCEXP
 %token EOF
@@ -42,6 +55,7 @@
 
 %{ open Grammar %}
 %start <Spec.t> spec
+%start <data_expr> data_spec
 %%
 
 let comment ==
@@ -61,7 +75,7 @@ let id_list == | lst= c_lst(ID);                 { lst }
 let init :=
     | INIT; PROCEXP; ";";                        { ProcExpr }
 
-(** Data Specifications *)
+(** Sort Specifications *)
 let proj_decl :=
     | i= option(id); sort_expr= sort_expr;       { { proj_id= i ; sort_expr } }
 
@@ -98,6 +112,41 @@ let sort_decl :=
 
 let ids_decl :=
     | lst= id_list; ":"; sort_expr= sort_expr;   { make_ids_decl ~id_list:lst ~sort_expr () }
+
+(** Data Specifications *)
+let data_spec := e= ending_comma(data_expr);     { e }
+let data_expr :=
+    | id= ID;                                    { Id id }
+    | num= NUMBER;                               { Number num }
+    | TRUE;                                      { Bool true }
+    | FALSE;                                     { Bool false }
+    | "["; "]";                                  { List [] }
+    | "{"; "}";                                  { Set [] }
+    | "{"; ":"; "}";                             { Bag [] }
+    | "["; expr= c_lst(data_expr); "]";          { List expr }
+    | "{"; expr= c_lst(bag_enum_elt); "}";       { Bag expr }
+    | "{"; v= var_decl; "|"; e= data_expr; "}";  { SetComp (v, e) }
+    | "{"; expr= c_lst(data_expr); "}";          { Set expr }
+    | expr= pw(data_expr);                       { SubExpr expr }
+    | e1= data_expr; "["; e2= data_expr; "->"; e3= data_expr; "]";
+                                                 { SetUpdate (e1, e2, e3) }
+    | e1= data_expr; "("; lst= c_lst(data_expr); ")";
+                                                 { Access (e1, lst) }
+    | "!"; exp= data_expr;                       { Neg exp }
+    | "-"; exp= data_expr;                       { Invert exp }
+    | "#"; exp= data_expr;                       { Count exp }
+    | FORALL; v= c_lst(var_decl); "."; e= data_expr;
+                                                 { ForAll (v, e) }
+    | EXISTS; v= c_lst(var_decl); "."; e= data_expr;
+                                                 { Exists (v, e) }
+    | LAMBDA; v= c_lst(var_decl); "."; e= data_expr;
+                                                 { Lambda (v, e) }
+
+let bag_enum_elt :=
+    | lh= data_expr; ":"; rh= data_expr;         { BagEnumElt (lh, rh) }
+
+let var_decl :=
+    | id= ID; ":"; expr= sort_expr;              { VarDecl (id, expr) }
 
 (** Main Specification *)
 let specs :=

@@ -69,6 +69,10 @@ let parse_from_channel ic = ic |> Lexing.from_channel |> ParserEngine.parse_from
 
 let parse_from_file filename = filename |> open_in |> parse_from_channel
 
+let basic_parse ~f str =
+  let open Lexer in
+  str |> Lexing.from_string |> f @@ read
+
 let%expect_test "sort exp1" =
   let src =
     {|
@@ -117,3 +121,13 @@ let%expect_test "sort exp2" =
              ])
         ];
       init = None } |}]
+
+let%expect_test "true" =
+  let parser = basic_parse ~f:Parser.data_spec in
+  "true;" |> parser |> Grammar.show_data_expr |> print_endline ;
+  [%expect {| (Grammar.Bool true) |}]
+
+let%expect_test "false" =
+  let parser = basic_parse ~f:Parser.data_spec in
+  "false;" |> parser |> Grammar.show_data_expr |> print_endline ;
+  [%expect {| (Grammar.Bool false) |}]

@@ -48,6 +48,51 @@ type sort_decl =
   | SortType of sort_type
 [@@deriving show, eq]
 
+type data_expr =
+  | Id               of string
+  | Number           of int
+  | Bool             of bool
+  | List             of data_expr list
+  | Bag              of bag_enum_elt list
+  | SetComp          of var_decl * data_expr
+  | Set              of data_expr list
+  | SubExpr          of data_expr
+  | SetUpdate        of data_expr * data_expr * data_expr
+  | Access           of data_expr * data_expr list
+  | Neg              of data_expr
+  | Invert           of data_expr
+  | Count            of data_expr
+  | ForAll           of var_decl list * data_expr
+  | Exists           of var_decl list * data_expr
+  | Lambda           of var_decl list * data_expr
+  | Implies          of data_expr * data_expr
+  | Or               of data_expr * data_expr
+  | And              of data_expr * data_expr
+  | Equal            of data_expr * data_expr
+  | NotEqual         of data_expr * data_expr
+  | LessThan         of data_expr * data_expr
+  | LessThanEqual    of data_expr * data_expr
+  | GreaterThanEqual of data_expr * data_expr
+  | GreaterThan      of data_expr * data_expr
+  | In               of data_expr * data_expr
+  | Snoc             of data_expr * data_expr
+  | Cons             of data_expr * data_expr
+  | Concat           of data_expr * data_expr
+  | Sum              of data_expr * data_expr
+  | Difference       of data_expr * data_expr
+  | Quotient         of data_expr * data_expr
+  | IntDivision      of data_expr * data_expr
+  | Remainder        of data_expr * data_expr
+  | Product          of data_expr * data_expr
+  | AtPosition       of data_expr * data_expr
+[@@deriving show, eq]
+
+and bag_enum_elt = BagEnumElt of data_expr * data_expr
+
+and var_decl = VarDecl of string * sort_expr
+
+and assignment = Assignment of string * data_expr
+
 type mcrl2_spec_elt =
   | Comment       of comment
   | SortSpec      of sort_decl list

@@ -35,16 +35,28 @@ rule read =
   (** Char *)
   | ':'        { COLON }
   | ','        { COMMA }
+  | '{'        { L_BRACE }
+  | '['        { L_BRACK }
   | '('        { L_PARAN }
   | '%'        { PERCENT }
   | '?'        { Q_MARK }
   | ')'        { R_PARAN }
+  | ']'        { R_BRACK }
+  | '}'        { R_BRACE }
   | ';'        { SEMICOLON }
   | "|"        { V_BAR }
+  | "!"        { EXCLAIM }
+  | "-"        { MINUS }
+  | '.'        { DOT }
   (** Infix *)
   | "->"       { R_ARROW }
   | "#"        { HASH }
   (** Sort Words *)
+  | "true"     { TRUE }
+  | "false"    { FALSE }
+  | "forall"   { FORALL }
+  | "exists"   { EXISTS }
+  | "lambda"   { LAMBDA }
   | "Bool"     { S_BOOL }
   | "Pos"      { S_POS }
   | "Nat"      { S_NAT }
