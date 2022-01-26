@@ -68,3 +68,52 @@ let parse_from_string str = str |> Lexing.from_string |> ParserEngine.parse_from
 let parse_from_channel ic = ic |> Lexing.from_channel |> ParserEngine.parse_from
 
 let parse_from_file filename = filename |> open_in |> parse_from_channel
+
+let%expect_test "sort exp1" =
+  let src =
+    {|
+    sort Natural;
+    cons zero: Natural;
+         succ: Natural -> Natural;
+    |}
+  in
+  src |> parse_from_string |> Result.get_ok |> show |> print_endline ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.SortSpec [(Grammar.IdList ["Natural"])]);
+        (Grammar.ConsSpec
+           [{ Grammar.id_list = ["zero"]; sort_expr = (Grammar.Id "Natural") };
+             { Grammar.id_list = ["succ"];
+               sort_expr =
+               (Grammar.Function ((Grammar.Id "Natural"), (Grammar.Id "Natural")
+                  ))
+               }
+             ])
+        ];
+      init = None } |}]
+
+let%expect_test "sort exp2" =
+  let src =
+    {|
+    sort Positive;
+    cons one: Positive;
+         cdub: Bool # Positive -> Positive;
+    |}
+  in
+  src |> parse_from_string |> Result.get_ok |> show |> print_endline ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.SortSpec [(Grammar.IdList ["Positive"])]);
+        (Grammar.ConsSpec
+           [{ Grammar.id_list = ["one"]; sort_expr = (Grammar.Id "Positive") };
+             { Grammar.id_list = ["cdub"];
+               sort_expr =
+               (Grammar.Function (
+                  (Grammar.Tuple (Grammar.Bool, (Grammar.Id "Positive"))),
+                  (Grammar.Id "Positive")))
+               }
+             ])
+        ];
+      init = None } |}]

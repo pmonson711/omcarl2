@@ -42,7 +42,6 @@
 
 %{ open Grammar %}
 %start <Spec.t> spec
-%start <sort_decl> sort_decl
 %%
 
 let comment ==

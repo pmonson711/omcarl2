@@ -20,7 +20,7 @@
   (depends
     (dune (>= 2.5))
     (ocaml (>= 4.08))
-    
+
     (cmdliner (>= 0.9))
     (bos (>= 0.2))
     (menhir (>= 20200624))
@@ -28,6 +28,9 @@
 
     ;; Testing
     (alcotest (and :with-test (>= 1.1)))
+    (ppx_inline_test (and :with-test (>= v0.14)))
+    (ppx_expect (and :with-test (>= v0.14)))
+    (bisect_ppx (and :with_test (>= 2.7)))
 
     (merlin :dev)
     (ocamlformat :dev)
@@ -35,6 +38,5 @@
     (ocp-index :dev)
     (odig :dev)
     (utop :dev)
-    (bisect_ppx :dev)
   )
  )
