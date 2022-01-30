@@ -103,6 +103,11 @@ type eqn_decl = EqnDecl of data_expr option * data_expr option * data_expr
 
 type var_spec = VarSpec of vars_decl list list [@@deriving show, eq]
 
+type act_decl =
+  | IdList      of string list
+  | SortProduct of string list * sort_expr
+[@@deriving show, eq]
+
 type mcrl2_spec_elt =
   | Comment       of comment
   | SortSpec      of sort_decl list
@@ -110,7 +115,7 @@ type mcrl2_spec_elt =
   | MapSpec       of ids_decl list
   | EqnSpec       of var_spec option * eqn_decl list
   | GlobalVarSpec of vars_decl list list
-  | ActSpec
+  | ActSpec       of act_decl list
   | ProcSpec
 [@@deriving show, eq]
 

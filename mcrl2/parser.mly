@@ -22,16 +22,18 @@
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token PROCEXP
-%token EOF EOL
+%token EOF
 
-%left R_ARROW HASH
+%left R_ARROW R_FARROW HASH CONCAT F_SLASH DIV GT GTE LT LTE
+%left IN SNOC CONS2 D_BAR D_EQUAL  EXCLAIM_EQUAL
 %right WHERE
-%left END
+%left L_BRACK L_PARAN
+%left EXCLAIM
+%right MINUS PLUS DOT ASTERISK
 
 %{ open Grammar %}
 %start <Spec.t> spec
 %%
-let data_spec := e= data_expr; ";"; { e }
 let comment ==
     | "%"+; text= STR;                           { make_comment ~text }
     | "%"+; text= ID;                            { make_comment ~text }
@@ -164,6 +166,11 @@ let eqn_decl :=
     | e2= data_expr; "="; e3= data_expr; ";";    { EqnDecl (None, Some e2, e3) }
     (** Guessing, but not in BNF *)
 
+(** Process Spec *)
+let act_decl :=
+    | lst= id_list; ";";                         { IdList lst }
+    | lst= id_list; ":"; exp= sort_expr; ";";    { SortProduct (lst, exp) } (** devation from the BNF of the product *)
+
 (** Main Specification *)
 let specs :=
     | c= comment;                                { Comment c }
@@ -172,8 +179,8 @@ let specs :=
     | MAP; ids_decl= ending_semi(ids_decl)+;     { MapSpec ids_decl }
     | v= var_spec?; EQN; d= eqn_decl+;           { EqnSpec (v, d) }
     | GLOB; lst= ending_semi(vars_decl_list)+;   { GlobalVarSpec lst }
-    (* | ACT;                                       { ActSpec } *)
-    (* | PROC;                                      { ProcSpec } *)
+    | ACT; decl= act_decl+;                      { ActSpec decl }
+    | PROC;                                      { ProcSpec }
 
 let spec :=
     | specs= specs+; init= init?; EOF;           { Spec.make ~specs ?init () }

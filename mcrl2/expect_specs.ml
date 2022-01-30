@@ -653,3 +653,26 @@ let%expect_test "glob" =
     { Grammar.Spec.specs =
       [(Grammar.GlobalVarSpec [[(Grammar.VarsDecl (["x"], Grammar.Nat))]])];
       init = None } |}]
+
+let%expect_test "act" =
+  basic_parse {|
+    act a, b, c ;
+    |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs = [(Grammar.ActSpec [(Grammar.IdList ["a"; "b"; "c"])])];
+      init = None } |}]
+
+let%expect_test "act" =
+  basic_parse {|
+    act a, b, c : Bool # Bool ;
+    |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.ActSpec
+          [(Grammar.SortProduct (["a"; "b"; "c"],
+              (Grammar.Tuple (Grammar.Bool, Grammar.Bool))))
+            ])
+        ];
+      init = None } |}]
