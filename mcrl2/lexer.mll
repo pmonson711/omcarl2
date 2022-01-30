@@ -18,7 +18,7 @@ let str = (alpha|digit) (alpha|digit|'_')*
 let qstr = [^ '"']+
 let whitespace = [' ' '\t']
 let newline = '\r' | '\n' | "\r\n"
-let id = alpha (alpha|digit|'_')*
+let id = alpha (alpha|digit|'_'|'\'')*
 
 
 rule read =
@@ -29,6 +29,8 @@ rule read =
   | "sort"     { SORT }
   | "cons"     { CONS }
   | "eqn"      { EQN }
+  | "map"      { MAP }
+  | "var"      { VAR }
   | "glob"     { GLOB }
   | "act"      { ACT }
   | "proc"     { PROC }
@@ -44,13 +46,28 @@ rule read =
   | ']'        { R_BRACK }
   | '}'        { R_BRACE }
   | ';'        { SEMICOLON }
-  | "|"        { V_BAR }
-  | "!"        { EXCLAIM }
-  | "-"        { MINUS }
+  | '|'        { V_BAR }
+  | '!'        { EXCLAIM }
+  | '-'        { MINUS }
+  | '+'        { PLUS }
   | '.'        { DOT }
+  | '*'        { ASTERISK }
   (** Infix *)
+  | '='        { EQUAL }
   | "->"       { R_ARROW }
-  | "#"        { HASH }
+  | '#'        { HASH }
+  | "||"       { D_BAR }
+  | "&&"       { D_AMP }
+  | "=="       { D_EQUAL }
+  | "!="       { EXCLAIM_EQUAL }
+  | '>'        { GT }
+  | ">="       { GTE }
+  | '<'        { LT }
+  | "<="       { LTE }
+  | "in"       { IN }
+  | "=>"       { R_FARROW }
+  | "|>"       { SNOC }
+  | "<|"       { CONS2 }
   (** Sort Words *)
   | "true"     { TRUE }
   | "false"    { FALSE }
@@ -62,10 +79,15 @@ rule read =
   | "Nat"      { S_NAT }
   | "Int"      { S_INT }
   | "Real"     { S_REAL }
+  | "List"     { S_LIST }
   | "Bag"      { S_BAG }
+  | "Set"      { S_SET }
   | "FBag"     { S_FBAG }
   | "FSet"     { S_FSET }
   | "struct"   { STRUCT }
+  (** data words *)
+  | "whr"      { WHERE }
+  | "end"      { END }
   | digit      { NUMBER (Lexing.lexeme lexbuf |> int_of_string) }
   | id         { ID (Lexing.lexeme lexbuf) }
   | str        { STR (Lexing.lexeme lexbuf) }

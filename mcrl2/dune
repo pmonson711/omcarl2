@@ -19,4 +19,4 @@
 
 (menhir
  (modules parser)
- (flags --dump --explain --table))
+ (flags --dump --explain --table --lalr))

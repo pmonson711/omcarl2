@@ -7,7 +7,7 @@ type proj_decl =
 [@@deriving show, eq]
 (** Sort Expressions *)
 
-and const_decl =
+and constr_decl =
   { const_id: string
   ; proj_decls: proj_decl list
   ; guard: string option
@@ -21,12 +21,13 @@ and sort_expr =
   | Int
   | Real
   | List     of sort_expr
+  | Set      of sort_expr
   | Bag      of sort_expr
   | FSet     of sort_expr
   | FBag     of sort_expr
   | Id       of string
   | SubExpr  of sort_expr
-  | Struct   of const_decl list
+  | Struct   of constr_decl list
   | Function of sort_expr * sort_expr
   | Tuple    of sort_expr * sort_expr
 [@@deriving show, eq]
@@ -62,9 +63,9 @@ type data_expr =
   | Neg              of data_expr
   | Invert           of data_expr
   | Count            of data_expr
-  | ForAll           of var_decl list * data_expr
-  | Exists           of var_decl list * data_expr
-  | Lambda           of var_decl list * data_expr
+  | ForAll           of vars_decl list * data_expr
+  | Exists           of vars_decl list * data_expr
+  | Lambda           of vars_decl list * data_expr
   | Implies          of data_expr * data_expr
   | Or               of data_expr * data_expr
   | And              of data_expr * data_expr
@@ -85,20 +86,30 @@ type data_expr =
   | Remainder        of data_expr * data_expr
   | Product          of data_expr * data_expr
   | AtPosition       of data_expr * data_expr
+  | Where            of data_expr * assignment list
 [@@deriving show, eq]
 
 and bag_enum_elt = BagEnumElt of data_expr * data_expr
 
-and var_decl = VarDecl of string * sort_expr
+and var_decl = VarDecl of string * sort_expr [@@deriving show, eq, make]
+
+and vars_decl = VarsDecl of string list * sort_expr
+[@@deriving show, eq, make]
 
 and assignment = Assignment of string * data_expr
+
+type eqn_decl = EqnDecl of data_expr option * data_expr option * data_expr
+[@@deriving show, eq]
+
+type var_spec = VarSpec of vars_decl list list [@@deriving show, eq]
 
 type mcrl2_spec_elt =
   | Comment       of comment
   | SortSpec      of sort_decl list
   | ConsSpec      of ids_decl list
-  | EqnSpec
-  | GlobalVarSpec
+  | MapSpec       of ids_decl list
+  | EqnSpec       of var_spec option * eqn_decl list
+  | GlobalVarSpec of vars_decl list list
   | ActSpec
   | ProcSpec
 [@@deriving show, eq]

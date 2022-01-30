@@ -2,70 +2,46 @@
 %token <string> ID
 %token <int> NUMBER
 (** Sections *)
-%token ACT
-%token CONS
-%token EQN
-%token GLOB
-%token INIT
-%token PROC
-%token SORT
+%token ACT CONS EQN MAP VAR GLOB INIT PROC SORT
 (** Char *)
-%token COLON ":"
-%token COMMA ","
-%token EQUAL "="
-%token L_BRACE "{"
-%token L_BRACK "["
-%token L_PARAN "("
-%token PERCENT "%"
-%token Q_MARK "?"
-%token R_BRACE "}"
-%token R_BRACK "]"
-%token R_PARAN ")"
-%token SEMICOLON ";"
-%token V_BAR "|"
-%token EXCLAIM "!"
-%token MINUS "-"
-%token DOT "."
+%token COLON ":" SEMICOLON ";" COMMA "," V_BAR "|"
+%token L_BRACE "{" L_BRACK "[" L_PARAN "("
+%token R_BRACE "}" R_BRACK "]" R_PARAN ")"
+%token PERCENT "%" Q_MARK "?" EXCLAIM "!"
+%token MINUS "-" PLUS "+" DOT "." ASTERISK "*"
+%token EQUAL "=" D_EQUAL "==" EXCLAIM_EQUAL "!="
+%token D_BAR "||" D_AMP "&&"
+%token GT ">" GTE ">=" LT "<" LTE "<="
+%token IN "in" SNOC "|>" CONS2 "<|"
+%token CONCAT "++" F_SLASH "/" DIV
 (** Sort Terminals *)
-%token S_BOOL
-%token S_POS
-%token S_NAT
-%token S_INT
-%token S_REAL
-%token S_LIST
-%token S_BAG
-%token S_FSET
-%token S_FBAG
-%token STRUCT
-%token TRUE
-%token FALSE
-%token FORALL
-%token EXISTS
-%token LAMBDA
+%token S_BOOL S_POS S_NAT S_INT S_REAL S_LIST S_SET S_BAG S_FSET S_FBAG STRUCT
+%token TRUE FALSE
+%token FORALL EXISTS LAMBDA
+%token WHERE "whr" END
 (** Infix Terminals *)
-%token R_ARROW "->"
-%token R_FARROW "=>"
-%token HASH "#"
+%token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token PROCEXP
-%token EOF
-%token EOL
+%token EOF EOL
 
-%left R_ARROW
-%left HASH
+%left R_ARROW HASH
+%right WHERE
+%left END
 
 %{ open Grammar %}
 %start <Spec.t> spec
-%start <data_expr> data_spec
 %%
-
+let data_spec := e= data_expr; ";"; { e }
 let comment ==
     | "%"+; text= STR;                           { make_comment ~text }
     | "%"+; text= ID;                            { make_comment ~text }
 
 let id == i= ID; ":";                            { i }
 let pw(x) := | "("; x = x; ")";                  { x }
-let guard == | "?"; id= id;                      { id }
-let ending_comma(x) := | x= x; ";";              { x }
+let guard == | "?"; id= ID;                      { id }
+let ending_semi(x) := | x= x; ";";               { x }
+let s_lst(x) ==
+    lst= separated_nonempty_list(";", x);        { lst }
 let c_lst(x) ==
     lst= separated_nonempty_list(",", x);        { lst }
 let b_lst(x) ==
@@ -77,15 +53,15 @@ let init :=
 
 (** Sort Specifications *)
 let proj_decl :=
-    | i= option(id); sort_expr= sort_expr;       { { proj_id= i ; sort_expr } }
+    | sort_expr= sort_expr;                      { { proj_id= None; sort_expr } }
+    | i= id; sort_expr= sort_expr;               { { proj_id= Some i; sort_expr } }
 
 let proj_decl_list == lst= c_lst(proj_decl);     { lst }
 
 let constr_decl :=
-    | i= id; p= pw(proj_decl_list); g= guard?;   { { const_id= i
-                                                   ; proj_decls= p
-                                                   ; guard= g
-                                                   } }
+    | i= ID;                                     { { const_id= i ; proj_decls= [] ; guard= None } }
+    | i= ID; g= guard;                           { { const_id= i ; proj_decls= [] ; guard= Some g } }
+    | i= ID; p= pw(proj_decl_list); g= guard?;   { { const_id= i ; proj_decls= p ; guard= g } }
 
 let constr_decl_list == lst= b_lst(constr_decl); { lst }
 
@@ -96,6 +72,7 @@ let sort_expr :=
     | S_INT;                                     { Int }
     | S_REAL;                                    { Real }
     | S_LIST; t= pw(sort_expr);                  { List t }
+    | S_SET; t= pw(sort_expr);                   { Set t }
     | S_BAG; t= pw(sort_expr);                   { List t }
     | S_FSET; t= pw(sort_expr);                  { List t }
     | S_FBAG; t= pw(sort_expr);                  { List t }
@@ -106,7 +83,6 @@ let sort_expr :=
     | rh= sort_expr; "#"; lh= sort_expr;         { Tuple (rh, lh) }
 
 let sort_decl :=
-    | id= ID; ";";                               { IdList [id] }
     | lst= id_list; ";";                         { IdList lst }
     | id= ID; "="; s= sort_expr; ";";            { SortType ( make_sort_type ~id ~signature:s ) }
 
@@ -114,7 +90,6 @@ let ids_decl :=
     | lst= id_list; ":"; sort_expr= sort_expr;   { make_ids_decl ~id_list:lst ~sort_expr () }
 
 (** Data Specifications *)
-let data_spec := e= ending_comma(data_expr);     { e }
 let data_expr :=
     | id= ID;                                    { Id id }
     | num= NUMBER;                               { Number num }
@@ -135,12 +110,33 @@ let data_expr :=
     | "!"; exp= data_expr;                       { Neg exp }
     | "-"; exp= data_expr;                       { Invert exp }
     | "#"; exp= data_expr;                       { Count exp }
-    | FORALL; v= c_lst(var_decl); "."; e= data_expr;
+    | FORALL; v= vars_decl_list; "."; e= data_expr;
                                                  { ForAll (v, e) }
-    | EXISTS; v= c_lst(var_decl); "."; e= data_expr;
+    | EXISTS; v= vars_decl_list; "."; e= data_expr;
                                                  { Exists (v, e) }
-    | LAMBDA; v= c_lst(var_decl); "."; e= data_expr;
+    | LAMBDA; v= vars_decl_list; "."; e= data_expr;
                                                  { Lambda (v, e) }
+    | lh= data_expr; "=>"; rh= data_expr;        { Implies (lh, rh) }
+    | lh= data_expr; "||"; rh= data_expr;        { Or (lh, rh) }
+    | lh= data_expr; "&&"; rh= data_expr;        { And (lh, rh) }
+    | lh= data_expr; "=="; rh= data_expr;        { Equal (lh, rh) }
+    | lh= data_expr; "!="; rh= data_expr;        { NotEqual (lh, rh) }
+    | lh= data_expr; "<"; rh= data_expr;         { LessThan (lh, rh) }
+    | lh= data_expr; "<="; rh= data_expr;        { LessThanEqual (lh, rh) }
+    | lh= data_expr; ">="; rh= data_expr;        { GreaterThanEqual (lh, rh) }
+    | lh= data_expr; ">"; rh= data_expr;         { GreaterThan (lh, rh) }
+    | lh= data_expr; "in"; rh= data_expr;        { In (lh, rh) }
+    | lh= data_expr; "|>"; rh= data_expr;        { Snoc (lh, rh) }
+    | lh= data_expr; "<|"; rh= data_expr;        { Cons (lh, rh) }
+    | lh= data_expr; "++"; rh= data_expr;        { Concat (lh, rh) }
+    | lh= data_expr; "+"; rh= data_expr;         { Sum (lh, rh) }
+    | lh= data_expr; "-"; rh= data_expr;         { Difference (lh, rh) }
+    | lh= data_expr; "/"; rh= data_expr;         { Quotient (lh, rh) }
+    | lh= data_expr; DIV; rh= data_expr;         { IntDivision (lh, rh) }
+    | lh= data_expr; "*"; rh= data_expr;         { Product (lh, rh) }
+    | lh= data_expr; "."; rh= data_expr;         { AtPosition (lh, rh) }
+    | lh= data_expr; "whr"; rh= c_lst(assignment); END;
+                                                 { Where (lh, rh) }
 
 let bag_enum_elt :=
     | lh= data_expr; ":"; rh= data_expr;         { BagEnumElt (lh, rh) }
@@ -148,13 +144,34 @@ let bag_enum_elt :=
 let var_decl :=
     | id= ID; ":"; expr= sort_expr;              { VarDecl (id, expr) }
 
+let vars_decl :=
+    | lst= id_list; ":"; expr= sort_expr;        { VarsDecl (lst, expr) }
+
+let assignment :=
+    | id= ID; "="; expr= data_expr;              { Assignment (id, expr) }
+
+(** Eqn spec *)
+let vars_decl_list :=
+    | lst= c_lst(vars_decl);                     { lst }
+
+let var_spec :=
+    | VAR; lst= ending_semi(vars_decl_list)+;    { VarSpec lst }
+
+let eqn_decl :=
+    | e1= data_expr; "->"; e2= data_expr; "="; e3= data_expr; ";";
+                                                 { EqnDecl (Some e1, Some e2, e3) }
+    | e1= data_expr; "->";  e3= data_expr; ";";  { EqnDecl (Some e1, None, e3) } (** diverges from the BNF *)
+    | e2= data_expr; "="; e3= data_expr; ";";    { EqnDecl (None, Some e2, e3) }
+    (** Guessing, but not in BNF *)
+
 (** Main Specification *)
 let specs :=
     | c= comment;                                { Comment c }
     | SORT; sort_decls= sort_decl+;              { SortSpec sort_decls }
-    | CONS; ids_decls= ending_comma(ids_decl)+;  { ConsSpec ids_decls }
-    (* | EQN;                                       { EqnSpec } *)
-    (* | GLOB;                                      { GlobalVarSpec } *)
+    | CONS; ids_decls= ending_semi(ids_decl)+;   { ConsSpec ids_decls }
+    | MAP; ids_decl= ending_semi(ids_decl)+;     { MapSpec ids_decl }
+    | v= var_spec?; EQN; d= eqn_decl+;           { EqnSpec (v, d) }
+    | GLOB; lst= ending_semi(vars_decl_list)+;   { GlobalVarSpec lst }
     (* | ACT;                                       { ActSpec } *)
     (* | PROC;                                      { ProcSpec } *)
 
