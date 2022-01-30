@@ -1,5 +1,7 @@
 (library
  (public_name omcrl2)
+ (instrumentation
+  (backend bisect_ppx))
  (preprocess
   (pps ppx_deriving.show ppx_deriving.eq))
  (libraries menhirLib))

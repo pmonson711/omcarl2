@@ -1,4 +1,6 @@
 (executable
  (public_name omcrl2)
  (name main)
+ (instrumentation
+  (backend bisect_ppx))
  (libraries omcrl2 cmdliner))

@@ -10,7 +10,7 @@ homepage: "http://gitlab.com"
 doc: "http://gitlab.com"
 bug-reports: "http://gitlab.com"
 depends: [
-  "dune" {>= "2.5"}
+  "dune" {>= "2.7" & >= "2.5"}
   "ocaml" {>= "4.08"}
   "cmdliner" {>= "0.9"}
   "bos" {>= "0.2"}
@@ -26,9 +26,10 @@ depends: [
   "ocp-index" {dev}
   "odig" {dev}
   "utop" {dev}
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"
