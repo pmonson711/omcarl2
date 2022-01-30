@@ -5,10 +5,7 @@ let mcrl2 =
   let open Alcotest in
   testable Mcrl2.pp Mcrl2.equal
 
-let parse str =
-  let open Omcrl2.Cons_parser in
-  let open Omcrl2.Lexer in
-  str |> Lexing.from_string |> prog @@ read_tokens
+let parse = Omcrl2.cons_parse
 
 let is_value id t = Some (`ConsDecl (`IdList ([ id ], Some t)))
 

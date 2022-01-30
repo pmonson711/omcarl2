@@ -34,6 +34,7 @@
  (merge_into data_parser)
  (flags
   --explain
+  --unused-tokens
   --table
   (--external-tokens Tokens)))
 
@@ -51,5 +52,44 @@
  (merge_into eqn_parser)
  (flags
   --explain
+  --unused-tokens
   --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser glob_parser glob_parser_value)
+ (merge_into glob_parser)
+ (flags
+  --explain
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser act_parser act_parser_value)
+ (merge_into act_parser)
+ (flags
+  --explain
+  --unused-tokens
+  --table
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser data_parser proc_parser proc_parser_value)
+ (merge_into proc_parser)
+ (flags
+  --explain
+  --unused-tokens
+  --table
+  --lalr
+  (--external-tokens Tokens)))
+
+(menhir
+ (modules tokens sort_parser cons_parser data_parser eqn_parser map_parser
+   glob_parser act_parser proc_parser mcrl_parser)
+ (merge_into mcrl_parser)
+ (flags
+  --explain
+  --table
+  --lalr
   (--external-tokens Tokens)))

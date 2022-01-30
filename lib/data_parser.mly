@@ -17,14 +17,15 @@
                                                    { `Exists (vars, expr) }
   | "lambda"; vars= vars_decl_list; "."; expr= data_expr
                                                    { `Lambda (vars, expr) }
-  | expr= bin                                      { expr }
+  | expr= data_bin                                 { expr }
 
-bin:
-  | left= data_expr; op= bin_op; right= data_expr  { `BinOp (left, op, right) }
+data_bin:
+  | left= data_expr; op= data_bin_op; right= data_expr
+                                                   { `BinOp (left, op, right) }
   | expr= data_expr; WHERE; lst= assignment_list; END
                                                    { `WhereOp (expr, lst) }
 
-bin_op:
+%public data_bin_op:
   | "=>"                                           { `LogicalImplication }
   | "||"                                           { `LogicalOr }
   | "&&"                                           { `LogicalAnd }
@@ -65,7 +66,7 @@ static:
   | TRUE                                           { `True }
   | FALSE                                          { `False }
 
-data_expr_list:
+%public data_expr_list:
   | lst= separated_nonempty_list(COMMA, data_expr) { lst }
 
 bag_enum_elt:
@@ -83,13 +84,13 @@ var_decl:
 vars_decl:
   | lst=  data_id_list; COLON; expr= sort_exp;     { `VarsDecl (lst, expr) }
 
-vars_decl_list:
+%public vars_decl_list:
   | lst= separated_nonempty_list(COMMA, vars_decl) { lst }
 
 assignment:
   | id= ID; EQUAL; expr= data_expr;                { `Assignment (id, expr) }
 
-assignment_list:
+%public assignment_list:
   | lst= separated_nonempty_list(COMMA, assignment) { lst }
 
 set_update:

@@ -19,7 +19,6 @@
   | id= ID                                         { `Ref id }
   | e1= sort_exp; op= sort_bin_op; e2= sort_exp    { `TypeOp (op, e1, e2) }
 
-
 constr_decl:
   | id= ID; proj= proj_decl                        { `TConstr (id, [proj], None) }
   | id= ID; LPARAN; proj= proj_decl_list; RPARAN;

@@ -24,11 +24,15 @@ rule read_tokens =
   | whitespace { read_tokens lexbuf }
   | newline    { next_line lexbuf; read_tokens lexbuf }
 
-  (* | "cons"     { CONS_SEC } *)
-  (* | "sort"     { SORT_SEC } *)
-  (* | "map"      { MAP_SEC } *)
-  (* | "var"      { VAR_SEC } *)
-  (* | "eqn"      { EQN_SEC } *)
+  | "cons"     { CONS_SEC }
+  | "sort"     { SORT_SEC }
+  | "map"      { MAP_SEC }
+  | "var"      { VAR_SEC }
+  | "eqn"      { EQN_SEC }
+  | "glob"     { GLOB_SEC }
+  | "act"      { ACT_SEC }
+  | "proc"     { PROC_SEC }
+  | "init"     { INIT_SEC }
 
 (* SORT *)
   | "struct"   { STRUCT }
@@ -50,7 +54,6 @@ rule read_tokens =
   | ']'        { R_BRACE }
   | '{'        { L_BRACK }
   | '}'        { R_BRACK }
-
   | '('        { LPARAN }
   | ')'        { RPARAN }
   | "->"       { RARROW }
@@ -85,6 +88,12 @@ rule read_tokens =
   | "exists"   { EXISTS }
   | "lambda"   { LAMBDA }
   | '.'        { DOT }
+
+  (* PROC SECTION *)
+  | "delta"    { DELTA }
+  | "tau"      { TAU }
+  | "sum"      { SUMMATION }
+  | "<>"       { DIAMOND }
 
   | id         { ID (Lexing.lexeme lexbuf) }
   | digit      { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }

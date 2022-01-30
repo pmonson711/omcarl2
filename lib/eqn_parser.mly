@@ -9,4 +9,4 @@
   | ids= eqn_id_list; COLON; expr=sort_exp  { `Var (ids, expr) }
 
 eqn_id_list:
-  | lst= separated_nonempty_list(COMMA, ID) { lst}
+  | lst= separated_nonempty_list(COMMA, ID) { lst }
