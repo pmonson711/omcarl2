@@ -64,12 +64,11 @@ let%expect_test "sort exp3" =
           [(Grammar.EqnDecl (None,
               (Some (Grammar.Access ((Grammar.Id "square_sum"),
                        [(Grammar.Id "x"); (Grammar.Id "y")]))),
-              (Grammar.Product ((Grammar.Id "z"),
-                 (Grammar.Where ((Grammar.Id "z"),
-                    [(Grammar.Assignment ("z",
-                        (Grammar.Sum ((Grammar.Id "x"), (Grammar.Id "y")))))
-                      ]
-                    ))
+              (Grammar.Where (
+                 (Grammar.Product ((Grammar.Id "z"), (Grammar.Id "z"))),
+                 [(Grammar.Assignment ("z",
+                     (Grammar.Sum ((Grammar.Id "x"), (Grammar.Id "y")))))
+                   ]
                  ))
               ))
             ]
@@ -151,12 +150,11 @@ let%expect_test "map eqn var exp2" =
           [(Grammar.EqnDecl (None,
               (Some (Grammar.Access ((Grammar.Id "square_sum"),
                        [(Grammar.Id "x"); (Grammar.Id "y")]))),
-              (Grammar.Product ((Grammar.Id "z"),
-                 (Grammar.Where ((Grammar.Id "z"),
-                    [(Grammar.Assignment ("z",
-                        (Grammar.Sum ((Grammar.Id "x"), (Grammar.Id "y")))))
-                      ]
-                    ))
+              (Grammar.Where (
+                 (Grammar.Product ((Grammar.Id "z"), (Grammar.Id "z"))),
+                 [(Grammar.Assignment ("z",
+                     (Grammar.Sum ((Grammar.Id "x"), (Grammar.Id "y")))))
+                   ]
                  ))
               ))
             ]
@@ -215,23 +213,23 @@ let%expect_test "map eqn var exp3" =
                 (Some (Grammar.GreaterThan ((Grammar.Id "n"), (Grammar.Number 1)
                          ))),
                 (Some (Grammar.Access ((Grammar.Id "fib"), [(Grammar.Id "n")]))),
-                (Grammar.Sum (
-                   (Grammar.Access ((Grammar.Id "fib"),
-                      [(Grammar.Access ((Grammar.Id "Int2Nat"),
-                          [(Grammar.Difference ((Grammar.Id "n"),
-                              (Grammar.Number 1)))
-                            ]
-                          ))
-                        ]
-                      )),
-                   (Grammar.Access ((Grammar.Id "fib"),
-                      [(Grammar.Access ((Grammar.Id "Int2Nat"),
-                          [(Grammar.Difference ((Grammar.Id "n"),
-                              (Grammar.Number 2)))
-                            ]
-                          ))
-                        ]
-                      ))
+                (Grammar.Access (
+                   (Grammar.Sum (
+                      (Grammar.Access ((Grammar.Id "fib"),
+                         [(Grammar.Access ((Grammar.Id "Int2Nat"),
+                             [(Grammar.Difference ((Grammar.Id "n"),
+                                 (Grammar.Number 1)))
+                               ]
+                             ))
+                           ]
+                         )),
+                      (Grammar.Id "fib"))),
+                   [(Grammar.Access ((Grammar.Id "Int2Nat"),
+                       [(Grammar.Difference ((Grammar.Id "n"), (Grammar.Number 2)
+                           ))
+                         ]
+                       ))
+                     ]
                    ))
                 ))
              ]
@@ -491,11 +489,11 @@ let%expect_test "fib2" =
              (Grammar.EqnDecl (None,
                 (Some (Grammar.Access ((Grammar.Id "fib"),
                          [(Grammar.Sum ((Grammar.Id "n"), (Grammar.Number 2)))]))),
-                (Grammar.Sum (
-                   (Grammar.Access ((Grammar.Id "fib"), [(Grammar.Id "n")])),
-                   (Grammar.Access ((Grammar.Id "fib"),
-                      [(Grammar.Sum ((Grammar.Id "n"), (Grammar.Number 1)))]))
-                   ))
+                (Grammar.Access (
+                   (Grammar.Sum (
+                      (Grammar.Access ((Grammar.Id "fib"), [(Grammar.Id "n")])),
+                      (Grammar.Id "fib"))),
+                   [(Grammar.Sum ((Grammar.Id "n"), (Grammar.Number 1)))]))
                 ))
              ]
            ))
@@ -674,5 +672,23 @@ let%expect_test "act" =
           [(Grammar.SortProduct (["a"; "b"; "c"],
               (Grammar.Tuple (Grammar.Bool, Grammar.Bool))))
             ])
+        ];
+      init = None } |}]
+
+let%expect_test "act exp1" =
+  basic_parse
+    {|
+    act send: Message;
+        print: Letter # Screen;
+        Shake_hand;
+    |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.ActSpec
+          [(Grammar.SortProduct (["send"], (Grammar.Id "Message")));
+            (Grammar.SortProduct (["print"],
+               (Grammar.Tuple ((Grammar.Id "Letter"), (Grammar.Id "Screen")))));
+            (Grammar.IdList ["Shake_hand"])])
         ];
       init = None } |}]
