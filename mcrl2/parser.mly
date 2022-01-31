@@ -21,7 +21,6 @@
 %token WHERE "whr" END
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
-%token PROCEXP
 %token EOF
 
 %left R_ARROW R_FARROW HASH CONCAT F_SLASH DIV GT GTE LT LTE
@@ -51,7 +50,7 @@ let b_lst(x) ==
 let id_list == | lst= c_lst(ID);                 { lst }
 
 let init :=
-    | INIT; PROCEXP; ";";                        { ProcExpr }
+    | INIT; ";";                                 { ProcExpr }
 
 (** Sort Specifications *)
 let proj_decl :=
@@ -171,6 +170,12 @@ let act_decl :=
     | lst= id_list; ";";                         { IdList lst }
     | lst= id_list; ":"; exp= sort_expr; ";";    { SortProduct (lst, exp) } (** devation from the BNF of the product *)
 
+let proc_expr :=
+    | ";";                                       { ProcExpr }
+
+let proc_decl :=
+    | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }
+
 (** Main Specification *)
 let specs :=
     | c= comment;                                { Comment c }
@@ -180,7 +185,7 @@ let specs :=
     | v= var_spec?; EQN; d= eqn_decl+;           { EqnSpec (v, d) }
     | GLOB; lst= ending_semi(vars_decl_list)+;   { GlobalVarSpec lst }
     | ACT; decl= act_decl+;                      { ActSpec decl }
-    | PROC;                                      { ProcSpec }
+    | PROC; decl= proc_decl+;                    { ProcSpec decl }
 
 let spec :=
     | specs= specs+; init= init?; EOF;           { Spec.make ~specs ?init () }

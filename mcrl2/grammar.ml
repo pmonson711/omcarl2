@@ -108,6 +108,11 @@ type act_decl =
   | SortProduct of string list * sort_expr
 [@@deriving show, eq]
 
+type proc_expr = ProcExpr [@@deriving show, eq]
+
+type proc_decl = ProcDelc of string * vars_decl list * proc_expr
+[@@deriving show, eq]
+
 type mcrl2_spec_elt =
   | Comment       of comment
   | SortSpec      of sort_decl list
@@ -116,21 +121,19 @@ type mcrl2_spec_elt =
   | EqnSpec       of var_spec option * eqn_decl list
   | GlobalVarSpec of vars_decl list list
   | ActSpec       of act_decl list
-  | ProcSpec
+  | ProcSpec      of proc_decl list
 [@@deriving show, eq]
-
-type init = ProcExpr [@@deriving show, eq]
 
 module Spec : sig
   type t =
     { specs: mcrl2_spec_elt list
-    ; init: init option
+    ; init: proc_expr option
     }
   [@@deriving show, eq, make]
 end = struct
   type t =
     { specs: mcrl2_spec_elt list
-    ; init: init option
+    ; init: proc_expr option
     }
   [@@deriving show, eq, make]
 end
