@@ -732,8 +732,7 @@ let%expect_test "proc assign" =
   [%expect
     {|
     { Grammar.Spec.specs =
-      [(Grammar.ProcSpec
-          [(Grammar.ProcDelc ("A", [], (Grammar.Update ("a", []))))])
+      [(Grammar.ProcSpec [(Grammar.ProcDelc ("A", [], (Grammar.Call ("a", []))))])
         ];
       init = None } |}]
 
@@ -746,7 +745,7 @@ let%expect_test "proc assign" =
     { Grammar.Spec.specs =
       [(Grammar.ProcSpec
           [(Grammar.ProcDelc ("A", [],
-              (Grammar.Update ("a",
+              (Grammar.Call ("a",
                  [(Grammar.Assignment ("b", (Grammar.Number 1)))]))
               ))
             ])

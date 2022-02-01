@@ -181,8 +181,8 @@ let act_id_set :=
 
 let proc_expr :=
     | a= action;                                 { Action a }
-    | id= ID; "("; ")";                          { Update (id, []) }
-    | id= ID; "("; lst= c_lst(assignment); ")";  { Update (id, lst) }
+    | id= ID; "("; ")";                          { Call (id, []) }
+    | id= ID; "("; lst= c_lst(assignment); ")";  { Call (id, lst) }
     | DELTA;                                     { Delta }
     | TAU;                                       { Tau }
     | BLOCK; "("; a= act_id_set; ","; p= proc_expr; ")";

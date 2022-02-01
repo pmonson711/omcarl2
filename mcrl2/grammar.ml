@@ -116,7 +116,7 @@ type action =
 
 type proc_expr =
   | Action of action
-  | Update of string * assignment list
+  | Call   of string * assignment list
   | Delta
   | Tau
   | Block  of string list * proc_expr
