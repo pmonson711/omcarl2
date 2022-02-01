@@ -177,6 +177,8 @@ let action :=
 
 let proc_expr :=
     | a= action;                                 { Action a }
+    | id= ID; "("; ")";                          { Update (id, []) }
+    | id= ID; "("; lst= c_lst(assignment); ")";  { Update (id, lst) }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

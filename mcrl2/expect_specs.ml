@@ -697,7 +697,8 @@ let%expect_test "proc act" =
   basic_parse {|
   proc A = a ;
   |} ;
-  [%expect {|
+  [%expect
+    {|
     { Grammar.Spec.specs =
       [(Grammar.ProcSpec
           [(Grammar.ProcDelc ("A", [],
@@ -710,7 +711,8 @@ let%expect_test "proc act" =
   basic_parse {|
   proc A = a(1, true, g) ;
   |} ;
-  [%expect {|
+  [%expect
+    {|
     { Grammar.Spec.specs =
       [(Grammar.ProcSpec
           [(Grammar.ProcDelc ("A", [],
@@ -718,6 +720,34 @@ let%expect_test "proc act" =
                  { Grammar.id = "a";
                    data_expr_list =
                    [(Grammar.Number 1); (Grammar.Bool true); (Grammar.Id "g")] })
+              ))
+            ])
+        ];
+      init = None } |}]
+
+let%expect_test "proc assign" =
+  basic_parse {|
+  proc A = a() ;
+  |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.ProcSpec
+          [(Grammar.ProcDelc ("A", [], (Grammar.Update ("a", []))))])
+        ];
+      init = None } |}]
+
+let%expect_test "proc assign" =
+  basic_parse {|
+  proc A = a(b = 1) ;
+  |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.ProcSpec
+          [(Grammar.ProcDelc ("A", [],
+              (Grammar.Update ("a",
+                 [(Grammar.Assignment ("b", (Grammar.Number 1)))]))
               ))
             ])
         ];

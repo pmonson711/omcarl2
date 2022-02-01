@@ -114,7 +114,10 @@ type action =
   }
 [@@deriving show, eq, make]
 
-type proc_expr = Action of action [@@deriving show, eq]
+type proc_expr =
+  | Action of action
+  | Update of string * assignment list
+[@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr
 [@@deriving show, eq]
