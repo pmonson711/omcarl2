@@ -752,3 +752,13 @@ let%expect_test "proc assign" =
             ])
         ];
       init = None } |}]
+
+let%expect_test "proc assign" =
+  basic_parse {|
+    proc A = delta ;
+  |} ;
+  [%expect
+    {|
+    { Grammar.Spec.specs =
+      [(Grammar.ProcSpec [(Grammar.ProcDelc ("A", [], Grammar.Delta))])];
+      init = None } |}]

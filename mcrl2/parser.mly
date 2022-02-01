@@ -19,6 +19,7 @@
 %token TRUE FALSE
 %token FORALL EXISTS LAMBDA
 %token WHERE "whr" END
+%token DELTA
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token EOF
@@ -179,6 +180,7 @@ let proc_expr :=
     | a= action;                                 { Action a }
     | id= ID; "("; ")";                          { Update (id, []) }
     | id= ID; "("; lst= c_lst(assignment); ")";  { Update (id, lst) }
+    | DELTA;                                     { Delta }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

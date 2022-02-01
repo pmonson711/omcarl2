@@ -85,6 +85,7 @@ rule read =
   | "FBag"     { S_FBAG }
   | "FSet"     { S_FSET }
   | "struct"   { STRUCT }
+  | "delta"    { DELTA }
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }
