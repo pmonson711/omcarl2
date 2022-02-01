@@ -50,7 +50,7 @@ let b_lst(x) ==
 let id_list == | lst= c_lst(ID);                 { lst }
 
 let init :=
-    | INIT; ";";                                 { ProcExpr }
+    | INIT; ";";                                 { Action (make_action ~id:"dummy_init" ()) }
 
 (** Sort Specifications *)
 let proj_decl :=
@@ -170,8 +170,13 @@ let act_decl :=
     | lst= id_list; ";";                         { IdList lst }
     | lst= id_list; ":"; exp= sort_expr; ";";    { SortProduct (lst, exp) } (** devation from the BNF of the product *)
 
+
+let action :=
+    | id= ID;                                    { make_action ~id () }
+    | id= ID; "("; lst= c_lst(data_expr); ")";   { make_action ~id ~data_expr_list:lst () }
+
 let proc_expr :=
-    | ";";                                       { ProcExpr }
+    | a= action;                                 { Action a }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

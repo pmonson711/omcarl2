@@ -692,3 +692,33 @@ let%expect_test "act exp1" =
             (Grammar.IdList ["Shake_hand"])])
         ];
       init = None } |}]
+
+let%expect_test "proc act" =
+  basic_parse {|
+  proc A = a ;
+  |} ;
+  [%expect {|
+    { Grammar.Spec.specs =
+      [(Grammar.ProcSpec
+          [(Grammar.ProcDelc ("A", [],
+              (Grammar.Action { Grammar.id = "a"; data_expr_list = [] })))
+            ])
+        ];
+      init = None } |}]
+
+let%expect_test "proc act" =
+  basic_parse {|
+  proc A = a(1, true, g) ;
+  |} ;
+  [%expect {|
+    { Grammar.Spec.specs =
+      [(Grammar.ProcSpec
+          [(Grammar.ProcDelc ("A", [],
+              (Grammar.Action
+                 { Grammar.id = "a";
+                   data_expr_list =
+                   [(Grammar.Number 1); (Grammar.Bool true); (Grammar.Id "g")] })
+              ))
+            ])
+        ];
+      init = None } |}]

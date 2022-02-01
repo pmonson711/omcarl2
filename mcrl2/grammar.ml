@@ -108,7 +108,13 @@ type act_decl =
   | SortProduct of string list * sort_expr
 [@@deriving show, eq]
 
-type proc_expr = ProcExpr [@@deriving show, eq]
+type action =
+  { id: string
+  ; data_expr_list: data_expr list
+  }
+[@@deriving show, eq, make]
+
+type proc_expr = Action of action [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr
 [@@deriving show, eq]
