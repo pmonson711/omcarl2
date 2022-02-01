@@ -87,6 +87,7 @@ rule read =
   | "struct"   { STRUCT }
   | "delta"    { DELTA }
   | "tau"      { TAU }
+  | "block"    { BLOCK }
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }

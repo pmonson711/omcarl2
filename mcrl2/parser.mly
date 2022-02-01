@@ -19,7 +19,7 @@
 %token TRUE FALSE
 %token FORALL EXISTS LAMBDA
 %token WHERE "whr" END
-%token DELTA TAU
+%token DELTA TAU BLOCK
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token EOF
@@ -176,12 +176,17 @@ let action :=
     | id= ID;                                    { make_action ~id () }
     | id= ID; "("; lst= c_lst(data_expr); ")";   { make_action ~id ~data_expr_list:lst () }
 
+let act_id_set :=
+    | "{"; lst= c_lst(ID); "}";                  { lst }
+
 let proc_expr :=
     | a= action;                                 { Action a }
     | id= ID; "("; ")";                          { Update (id, []) }
     | id= ID; "("; lst= c_lst(assignment); ")";  { Update (id, lst) }
     | DELTA;                                     { Delta }
     | TAU;                                       { Tau }
+    | BLOCK; "("; a= act_id_set; ","; p= proc_expr; ")";
+                                                 { Block (a, p) }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

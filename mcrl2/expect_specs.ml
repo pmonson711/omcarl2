@@ -772,3 +772,15 @@ let%expect_test "proc assign" =
     { Grammar.Spec.specs =
       [(Grammar.ProcSpec [(Grammar.ProcDelc ("A", [], Grammar.Tau))])];
       init = None } |}]
+
+let%expect_test "proc assign" =
+  basic_parse {|
+    proc A = block ({a}, tau) ;
+  |} ;
+  [%expect
+    {|
+      { Grammar.Spec.specs =
+        [(Grammar.ProcSpec
+            [(Grammar.ProcDelc ("A", [], (Grammar.Block (["a"], Grammar.Tau))))])
+          ];
+        init = None } |}]

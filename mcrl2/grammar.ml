@@ -119,6 +119,7 @@ type proc_expr =
   | Update of string * assignment list
   | Delta
   | Tau
+  | Block  of string list * proc_expr
 [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr
