@@ -86,6 +86,7 @@ rule read =
   | "FSet"     { S_FSET }
   | "struct"   { STRUCT }
   | "delta"    { DELTA }
+  | "tau"      { TAU }
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }

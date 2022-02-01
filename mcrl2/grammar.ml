@@ -118,6 +118,7 @@ type proc_expr =
   | Action of action
   | Update of string * assignment list
   | Delta
+  | Tau
 [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr
