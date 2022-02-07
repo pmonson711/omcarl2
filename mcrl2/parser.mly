@@ -19,7 +19,7 @@
 %token TRUE FALSE
 %token FORALL EXISTS LAMBDA
 %token WHERE "whr" END
-%token DELTA TAU BLOCK ALLOW HIDE RENAME COMM
+%token DELTA TAU BLOCK ALLOW HIDE RENAME COMM SUM
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token EOF
@@ -223,6 +223,8 @@ let proc_expr :=
                                                  { Comm (a, p) }
     | "("; p= proc_expr; ")";                    { SubExpr p }
     | a= proc_expr; "+"; b= proc_expr;           { Choice (a, b) }
+    | SUM; v= vars_decl_list; "."; p= proc_expr; { Sum (v, p) }
+    | a= proc_expr; "||"; b= proc_expr;          { Parallel (a, b) }
 
 
 let proc_decl :=

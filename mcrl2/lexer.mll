@@ -92,6 +92,7 @@ rule read =
   | "hide"     { HIDE }
   | "rename"   { RENAME }
   | "comm"     { COMM }
+  | "sum"      { SUM }
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }
