@@ -129,6 +129,7 @@ type proc_expr =
   | Hide   of string list * proc_expr
   | Rename of rename_expr list * proc_expr
   | Comm   of comm_expr list * proc_expr
+  | SubExpr of proc_expr
 [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr

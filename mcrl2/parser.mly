@@ -221,6 +221,7 @@ let proc_expr :=
                                                  { Rename (a, p) }
     | COMM; "("; a= comm_expr_set; ","; p= proc_expr; "}";
                                                  { Comm (a, p) }
+    | "("; p= proc_expr; ")";                    { SubExpr p }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }
