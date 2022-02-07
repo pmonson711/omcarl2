@@ -10,7 +10,7 @@
 %token PERCENT "%" Q_MARK "?" EXCLAIM "!"
 %token MINUS "-" PLUS "+" DOT "." ASTERISK "*"
 %token EQUAL "=" D_EQUAL "==" EXCLAIM_EQUAL "!="
-%token D_BAR "||" D_AMP "&&"
+%token D_BAR "||" D_BAR_ "||_" D_AMP "&&"
 %token GT ">" GTE ">=" LT "<" LTE "<="
 %token IN "in" SNOC "|>" CONS2 "<|"
 %token CONCAT "++" F_SLASH "/" DIV
@@ -225,6 +225,7 @@ let proc_expr :=
     | a= proc_expr; "+"; b= proc_expr;           { Choice (a, b) }
     | SUM; v= vars_decl_list; "."; p= proc_expr; { Sum (v, p) }
     | a= proc_expr; "||"; b= proc_expr;          { Parallel (a, b) }
+    | a= proc_expr; "||_"; b= proc_expr;         { Parallel_ (a, b) }
 
 
 let proc_decl :=

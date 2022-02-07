@@ -57,6 +57,7 @@ rule read =
   | "->"       { R_ARROW }
   | '#'        { HASH }
   | "||"       { D_BAR }
+  | "||_"      { D_BAR_ }
   | "&&"       { D_AMP }
   | "=="       { D_EQUAL }
   | "!="       { EXCLAIM_EQUAL }
