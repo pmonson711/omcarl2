@@ -222,6 +222,8 @@ let proc_expr :=
     | COMM; "("; a= comm_expr_set; ","; p= proc_expr; "}";
                                                  { Comm (a, p) }
     | "("; p= proc_expr; ")";                    { SubExpr p }
+    | a= proc_expr; "+"; b= proc_expr;           { Choice (a, b) }
+
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }
