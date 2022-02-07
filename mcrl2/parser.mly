@@ -19,7 +19,7 @@
 %token TRUE FALSE
 %token FORALL EXISTS LAMBDA
 %token WHERE "whr" END
-%token DELTA TAU BLOCK
+%token DELTA TAU BLOCK ALLOW HIDE RENAME COMM
 (** Infix Terminals *)
 %token R_ARROW "->" R_FARROW "=>" HASH "#"
 %token EOF
@@ -179,6 +179,32 @@ let action :=
 let act_id_set :=
     | "{"; lst= c_lst(ID); "}";                  { lst }
 
+let multi_act_id :=
+    | lst= b_lst(ID);                            { lst }
+
+let multi_act_id_set :=
+    | "{"; lst= c_lst(multi_act_id); "}";        { lst }
+
+let rename_expr :=
+    | a= ID; "->"; b= ID;                        { RenameExpr (a, b) }
+
+let rename_expr_list :=
+    | lst= c_lst(rename_expr);                   { lst }
+
+let rename_expr_set :=
+    |"{"; set= rename_expr_list; "}";            { set }
+    |"{"; "}";                                   { [] }
+
+let comm_expr :=
+    | a= ID; "|"; b= multi_act_id; "->"; c= ID;  { CommExpr (a, b, c) }
+
+let comm_expr_list :=
+    | lst= c_lst(comm_expr);                     { lst }
+
+let comm_expr_set :=
+    | "{"; lst= comm_expr_list; "}";             { lst }
+    | "{"; "}";                                  { [] }
+
 let proc_expr :=
     | a= action;                                 { Action a }
     | id= ID; "("; ")";                          { Call (id, []) }
@@ -187,6 +213,14 @@ let proc_expr :=
     | TAU;                                       { Tau }
     | BLOCK; "("; a= act_id_set; ","; p= proc_expr; ")";
                                                  { Block (a, p) }
+    | ALLOW; "{"; a= multi_act_id_set; ","; p= proc_expr; "}";
+                                                 { Allow (a, p) }
+    | HIDE; "("; a= act_id_set; ","; p= proc_expr; ")";
+                                                 { Hide (a, p) }
+    | RENAME; "("; a= rename_expr_set; ","; p= proc_expr; ")";
+                                                 { Rename (a, p) }
+    | COMM; "("; a= comm_expr_set; ","; p= proc_expr; "}";
+                                                 { Comm (a, p) }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

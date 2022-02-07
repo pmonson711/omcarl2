@@ -114,12 +114,21 @@ type action =
   }
 [@@deriving show, eq, make]
 
+type comm_expr = CommExpr of string * string list * string
+[@@deriving show, eq]
+
+type rename_expr = RenameExpr of string * string [@@deriving show, eq]
+
 type proc_expr =
   | Action of action
   | Call   of string * assignment list
   | Delta
   | Tau
   | Block  of string list * proc_expr
+  | Allow  of string list list * proc_expr
+  | Hide   of string list * proc_expr
+  | Rename of rename_expr list * proc_expr
+  | Comm   of comm_expr list * proc_expr
 [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr

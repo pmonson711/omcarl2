@@ -88,6 +88,10 @@ rule read =
   | "delta"    { DELTA }
   | "tau"      { TAU }
   | "block"    { BLOCK }
+  | "allow"    { ALLOW }
+  | "hide"     { HIDE }
+  | "rename"   { RENAME }
+  | "comm"     { COMM }
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }
