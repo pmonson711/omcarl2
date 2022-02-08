@@ -211,7 +211,7 @@ let data_expr_unit :=
     | n= NUMBER;                                 { Number n }
     | TRUE;                                      { Bool true }
     | FALSE;                                     { Bool false }
-    | "("; e= data_expr_unit; ")";               { Sub e }
+    | "("; e= data_expr; ")";                    { DataExpr e }
     | e= data_expr_unit; "("; lst= c_lst(data_expr); ")";
                                                  { Apply (e, lst) }
     | "!"; e= data_expr_unit;                    { Not e }
@@ -251,6 +251,8 @@ let proc_expr :=
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }
+    | id= ID; "("; lst= vars_decl_list; ")"; "="; expr= proc_expr; ";";
+                                                 { ProcDelc (id, lst, expr) }
 
 (** Main Specification *)
 let specs :=

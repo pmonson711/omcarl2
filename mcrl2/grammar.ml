@@ -120,14 +120,14 @@ type comm_expr = CommExpr of string * string list * string
 type rename_expr = RenameExpr of string * string [@@deriving show, eq]
 
 type data_expr_unit =
-  | Id     of string
-  | Number of int
-  | Bool   of bool
-  | Sub    of data_expr_unit
-  | Apply  of data_expr_unit * data_expr list
-  | Not    of data_expr_unit
-  | Minus  of data_expr_unit
-  | Count  of data_expr_unit
+  | Id       of string
+  | Number   of int
+  | Bool     of bool
+  | DataExpr of data_expr
+  | Apply    of data_expr_unit * data_expr list
+  | Not      of data_expr_unit
+  | Minus    of data_expr_unit
+  | Count    of data_expr_unit
 [@@deriving show, eq]
 
 type proc_expr =
