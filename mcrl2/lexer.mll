@@ -101,7 +101,7 @@ rule read =
   | "whr"      { WHERE }
   | "end"      { END }
   | "dis"      { DIST }
-  | digit      { NUMBER (Lexing.lexeme lexbuf |> int_of_string) }
+  | digit+     { NUMBER (Lexing.lexeme lexbuf |> int_of_string) }
   | id         { ID (Lexing.lexeme lexbuf) }
   | str        { STR (Lexing.lexeme lexbuf) }
   | _          { raise (SyntaxError ("Unexpected char: " ^ Lexing.lexeme lexbuf)) }
