@@ -119,21 +119,38 @@ type comm_expr = CommExpr of string * string list * string
 
 type rename_expr = RenameExpr of string * string [@@deriving show, eq]
 
+type data_expr_unit =
+  | Id     of string
+  | Number of int
+  | Bool   of bool
+  | Sub    of data_expr_unit
+  | Apply  of data_expr_unit * data_expr list
+  | Not    of data_expr_unit
+  | Minus  of data_expr_unit
+  | Count  of data_expr_unit
+[@@deriving show, eq]
+
 type proc_expr =
-  | Action    of action
-  | Call      of string * assignment list
+  | Action       of action
+  | Call         of string * assignment list
   | Delta
   | Tau
-  | Block     of string list * proc_expr
-  | Allow     of string list list * proc_expr
-  | Hide      of string list * proc_expr
-  | Rename    of rename_expr list * proc_expr
-  | Comm      of comm_expr list * proc_expr
-  | SubExpr   of proc_expr
-  | Choice    of proc_expr * proc_expr
-  | Sum       of vars_decl list * proc_expr
-  | Parallel  of proc_expr * proc_expr
-  | Parallel_ of proc_expr * proc_expr
+  | Block        of string list * proc_expr
+  | Allow        of string list list * proc_expr
+  | Hide         of string list * proc_expr
+  | Rename       of rename_expr list * proc_expr
+  | Comm         of comm_expr list * proc_expr
+  | SubExpr      of proc_expr
+  | Choice       of proc_expr * proc_expr
+  | Sum          of vars_decl list * proc_expr
+  | Parallel     of proc_expr * proc_expr
+  | Parallel_    of proc_expr * proc_expr
+  | If           of data_expr_unit * proc_expr * proc_expr option
+  | Before       of proc_expr * proc_expr (* Before? *)
+  | Then         of proc_expr * proc_expr
+  | At           of proc_expr * data_expr_unit
+  | Simultaneous of proc_expr * proc_expr
+  | Distribution of vars_decl list * data_expr * proc_expr
 [@@deriving show, eq]
 
 type proc_decl = ProcDelc of string * vars_decl list * proc_expr

@@ -14,14 +14,15 @@
 %token GT ">" GTE ">=" LT "<" LTE "<="
 %token IN "in" SNOC "|>" CONS2 "<|"
 %token CONCAT "++" F_SLASH "/" DIV
+%token L_CHEVRON "<<" AT "@"
 (** Sort Terminals *)
 %token S_BOOL S_POS S_NAT S_INT S_REAL S_LIST S_SET S_BAG S_FSET S_FBAG STRUCT
 %token TRUE FALSE
 %token FORALL EXISTS LAMBDA
 %token WHERE "whr" END
-%token DELTA TAU BLOCK ALLOW HIDE RENAME COMM SUM
+%token DELTA TAU BLOCK ALLOW HIDE RENAME COMM SUM DIST
 (** Infix Terminals *)
-%token R_ARROW "->" R_FARROW "=>" HASH "#"
+%token R_ARROW "->" R_FARROW "=>" HASH "#" DIAMOND "<>"
 %token EOF
 
 %left R_ARROW R_FARROW HASH CONCAT F_SLASH DIV GT GTE LT LTE
@@ -205,6 +206,18 @@ let comm_expr_set :=
     | "{"; lst= comm_expr_list; "}";             { lst }
     | "{"; "}";                                  { [] }
 
+let data_expr_unit :=
+    | id= ID;                                    { Id id }
+    | n= NUMBER;                                 { Number n }
+    | TRUE;                                      { Bool true }
+    | FALSE;                                     { Bool false }
+    | "("; e= data_expr_unit; ")";               { Sub e }
+    | e= data_expr_unit; "("; lst= c_lst(data_expr); ")";
+                                                 { Apply (e, lst) }
+    | "!"; e= data_expr_unit;                    { Not e }
+    | "-"; e= data_expr_unit;                    { Minus e }
+    | "#"; e= data_expr_unit;                    { Count e }
+
 let proc_expr :=
     | a= action;                                 { Action a }
     | id= ID; "("; ")";                          { Call (id, []) }
@@ -226,7 +239,15 @@ let proc_expr :=
     | SUM; v= vars_decl_list; "."; p= proc_expr; { Sum (v, p) }
     | a= proc_expr; "||"; b= proc_expr;          { Parallel (a, b) }
     | a= proc_expr; "||_"; b= proc_expr;         { Parallel_ (a, b) }
-
+    | a= data_expr_unit; "->"; t= proc_expr;     { If (a, t, None) }
+    | a= data_expr_unit; "->"; t= proc_expr; "<>"; e= proc_expr;
+                                                 { If (a, t, Some e) }
+    | a= proc_expr; "<<"; b= proc_expr;          { Before (a, b) }
+    | a= proc_expr; "."; b= proc_expr;           { Then (a, b) }
+    | a= proc_expr; "@"; b= data_expr_unit;      { At (a, b) }
+    | a= proc_expr; "|"; b= proc_expr;           { Simultaneous (a, b) }
+    | DIST; lst= vars_decl_list; "["; d= data_expr; "]"; "."; p= proc_expr;
+                                                 { Distribution (lst, d, p) }
 
 let proc_decl :=
     | id= ID; "="; expr= proc_expr; ";";         { ProcDelc (id, [], expr) }

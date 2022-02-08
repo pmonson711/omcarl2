@@ -52,6 +52,7 @@ rule read =
   | '+'        { PLUS }
   | '.'        { DOT }
   | '*'        { ASTERISK }
+  | '@'        { AT }
   (** Infix *)
   | '='        { EQUAL }
   | "->"       { R_ARROW }
@@ -69,6 +70,8 @@ rule read =
   | "=>"       { R_FARROW }
   | "|>"       { SNOC }
   | "<|"       { CONS2 }
+  | "<>"       { DIAMOND }
+  | "<<"       { L_CHEVRON }
   (** Sort Words *)
   | "true"     { TRUE }
   | "false"    { FALSE }
@@ -97,6 +100,7 @@ rule read =
   (** data words *)
   | "whr"      { WHERE }
   | "end"      { END }
+  | "dis"      { DIST }
   | digit      { NUMBER (Lexing.lexeme lexbuf |> int_of_string) }
   | id         { ID (Lexing.lexeme lexbuf) }
   | str        { STR (Lexing.lexeme lexbuf) }
