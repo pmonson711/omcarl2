@@ -46,4 +46,6 @@ let simple_switch () =
 let suite =
   let open Alcotest in
   ( test_name
-  , [ test_case "Empty" `Quick empty; test_case "simple switch" `Quick simple_switch ] )
+  , [ test_case "Empty" `Quick empty
+    ; test_case "simple switch" `Quick simple_switch
+    ] )

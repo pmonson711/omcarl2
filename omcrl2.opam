@@ -10,23 +10,26 @@ homepage: "http://gitlab.com"
 doc: "http://gitlab.com"
 bug-reports: "http://gitlab.com"
 depends: [
-  "dune" {>= "2.5"}
+  "dune" {>= "2.7" & >= "2.5"}
   "ocaml" {>= "4.08"}
   "cmdliner" {>= "0.9"}
   "bos" {>= "0.2"}
   "menhir" {>= "20200624"}
   "ppx_deriving" {>= "4.4"}
   "alcotest" {with-test & >= "1.1"}
+  "ppx_inline_test" {with-test & >= "v0.14"}
+  "ppx_expect" {with-test & >= "v0.14"}
+  "bisect_ppx" {with_test & >= "2.7"}
   "merlin" {dev}
   "ocamlformat" {dev}
   "ocp-indent" {dev}
   "ocp-index" {dev}
   "odig" {dev}
   "utop" {dev}
-  "bisect_ppx" {dev}
+  "odoc" {with-doc}
 ]
 build: [
-  ["dune" "subst"] {pinned}
+  ["dune" "subst"] {dev}
   [
     "dune"
     "build"

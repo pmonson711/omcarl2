@@ -5,10 +5,7 @@ let data_expr =
   let open Alcotest in
   testable Mcrl2.pp_data_expr Mcrl2.equal_data_expr
 
-let parse str =
-  let open Omcrl2.Data_parser in
-  let open Omcrl2.Lexer in
-  str |> Lexing.from_string |> prog @@ read_tokens
+let parse = Omcrl2.data_parse
 
 let empty () =
   Alcotest.(check (option data_expr)) "empty is none" None (parse "")
